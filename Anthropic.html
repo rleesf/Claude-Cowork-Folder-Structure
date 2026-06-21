@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Anthropic (Official)</title><style>
+*{box-sizing:border-box}
+:root{--maxw:1180px;--bg:#f4f1ec;--panel:#fffdfb;--panel2:#fbf7f1;--ink:#221f1b;--muted:#6f6a62;--line:#e6e0d6;
+--accent:#b8502d;--accent-d:#8f3c20;--accent2:#2f5d62;--good:#2f7d4f;--good-bg:#e9f3ec;--good-line:#bfe0cd;
+--warn:#9a6a12;--warn-bg:#f7eed8;--warn-line:#e6d2a6;--chip:#efeae2;--code:#f1ece3;--soft:#ecd9cf;
+--shadow:0 1px 2px rgba(20,15,10,.05),0 8px 22px rgba(20,15,10,.07);--radius:15px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+a{color:var(--accent-d);text-decoration:none}a:hover{text-decoration:underline}
+code{background:var(--code);padding:.08em .36em;border-radius:5px;font:.85em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#3a342c;word-break:break-word}
+/* top bar: aligned to body, white menu button left, tabs, expand-all right */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(244,241,236,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.topbar .in{max-width:var(--maxw);margin:0 auto;padding:10px 26px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.menubtn{font:700 13px/1 inherit;color:var(--ink);background:var(--panel);border:1.5px solid var(--soft);border-radius:9px;padding:9px 13px;cursor:pointer;box-shadow:var(--shadow)}
+.menubtn:hover{background:#fbf2ec;border-color:var(--accent)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 auto}
+.tabs a{font-size:13px;border:1.5px solid var(--soft);border-radius:999px;padding:6px 12px;background:var(--panel);color:#4a4640}
+.tabs a:hover{background:#fbf2ec;text-decoration:none}.tabs a.cur{background:var(--accent);color:#fff;border-color:var(--accent)}
+.allbtn{font:600 13px/1 inherit;color:var(--accent-d);background:var(--panel);border:1.5px solid var(--soft);border-radius:9px;padding:8px 13px;cursor:pointer;white-space:nowrap}
+.allbtn:hover{background:#fbf2ec}
+/* drawer */
+#backdrop{position:fixed;inset:0;background:rgba(25,18,12,.30);opacity:0;pointer-events:none;transition:opacity .2s;z-index:75}
+body.menu-open #backdrop{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;left:0;height:100vh;width:310px;max-width:85vw;background:var(--panel);border-right:1px solid var(--line);box-shadow:var(--shadow);transform:translateX(-106%);transition:transform .22s;z-index:80;overflow-y:auto;padding:18px 16px}
+body.menu-open #drawer{transform:none}
+#drawer .t{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:10px 8px 8px}
+#drawer a{display:block;color:#54504a;padding:8px 10px;border-radius:8px;font-size:14px}
+#drawer a:hover{background:#f1ece4;text-decoration:none}#drawer a.cur{background:#f6e9e1;color:var(--accent-d);font-weight:700}
+#drawer .cls{margin:12px 8px 4px}
+/* masthead */
+.masthead{background:linear-gradient(180deg,#fffdfb,#f7f3ec);border-bottom:1px solid var(--line)}
+.masthead .shell{padding:28px 26px 22px}
+.kicker{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-d);font-weight:700;margin:0 0 9px}
+h1{font-size:29px;line-height:1.16;margin:0 0 9px;letter-spacing:-.015em}
+.purpose{font-size:17px;color:#3b3732;margin:0 0 14px;max-width:82ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;color:#4a4640}
+.chip b{font-weight:700;color:var(--ink)}.dot{width:8px;height:8px;border-radius:50%}.dot.good{background:var(--good)}.dot.acc{background:var(--accent)}
+main{padding:22px 0 40px}
+.lead{font-size:16.5px;color:#3b3732;margin:0 0 16px}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin:0 0 18px;box-shadow:var(--shadow);overflow:hidden}
+.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:13px;padding:17px 22px;background:linear-gradient(180deg,#fffdfb,#fbf6f0)}
+.sec>summary::-webkit-details-marker{display:none}.sec>summary:hover{background:#fbf4ee}
+.tri{flex:0 0 auto;width:0;height:0;border-left:11px solid var(--accent);border-top:7px solid transparent;border-bottom:7px solid transparent;transition:transform .16s}
+details[open]>summary .tri{transform:rotate(90deg)}
+.stitle{flex:1 1 auto;font-size:18.5px;font-weight:700;letter-spacing:-.01em}
+.cnt{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--accent-d);background:#f6e9e1;border:1px solid var(--soft);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.secbody{padding:6px 22px 20px}
+p{margin:0 0 12px}ul,ol{margin:0 0 12px;padding-left:22px}li{margin:6px 0}
+.muted{color:var(--muted)}
+.note{border:1.5px solid #cfe0e0;background:#f1f6f6;border-radius:11px;padding:12px 16px;margin:0 0 14px;font-size:14.5px;box-shadow:var(--shadow)}
+.note.good{border-color:var(--good-line);background:var(--good-bg)}.note.warn{border-color:var(--warn-line);background:var(--warn-bg)}
+.tree{background:var(--code);color:#3a342c;border:1px solid var(--line);border-radius:11px;padding:15px 17px;overflow-x:auto;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:6px 0 12px;white-space:pre;box-shadow:var(--shadow)}
+.tree.best{box-shadow:0 0 0 2px var(--good-line),var(--shadow)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);margin:0 0 14px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
+thead th{background:#f1ece3;text-align:left;padding:10px 12px;font:700 12px/1.4 -apple-system,"Segoe UI",sans-serif;color:#43403a;border-bottom:1px solid var(--line)}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even){background:#faf7f2}tbody tr:hover{background:#f6efe8}
+.badge{display:inline-block;font:700 11px/1.4 -apple-system,"Segoe UI",sans-serif;color:#fff;background:var(--accent);border-radius:999px;padding:4px 10px;margin-left:8px}
+.badge.b2{background:var(--accent2)}.badge.b3{background:var(--good)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin:0 0 8px}
+.card{display:block;border:1.5px solid var(--soft);border-radius:12px;padding:14px 16px;background:var(--panel);box-shadow:var(--shadow);color:var(--ink)}
+.card:hover{background:#fbf4ee;text-decoration:none}.card .n{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--accent-d)}.card .d{font-size:13px;color:var(--muted);margin-top:3px}
+.sub{border:1.5px solid var(--soft);background:var(--panel2);border-radius:11px;margin:12px 0 0;overflow:hidden}
+.sub>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 15px;font-weight:600;font-size:14.5px;background:#f1ece3}
+.sub>summary::-webkit-details-marker{display:none}.subbody{padding:12px 15px}
+.srclist{list-style:none;padding:0;margin:0}.srclist li{border:1px solid var(--line);border-radius:11px;padding:11px 14px;margin:0 0 9px;background:var(--panel)}
+.srclist .u{font-size:12.5px;word-break:break-all}.srclist b{font-size:14.5px}
+.backtop{text-align:right;margin:14px 0 2px}
+.backtop a{display:inline-block;font:600 12.5px/1 -apple-system,"Segoe UI",sans-serif;color:var(--accent-d);background:var(--panel2);border:1.5px solid var(--soft);border-radius:999px;padding:8px 14px}
+.backtop a:hover{background:#fbf2ec;text-decoration:none}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);padding:16px;margin:0 0 14px;text-align:center;overflow-x:auto}
+.fig svg{max-width:100%;height:auto}.fig .cap{font-size:12.5px;color:var(--muted);margin-top:9px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 12px}
+.minicard{border:1.5px solid var(--soft);background:var(--panel2);border-radius:11px;padding:12px 14px;box-shadow:var(--shadow)}
+.minicard .h{font-weight:700;font-size:14px;margin:0 0 4px}.minicard p{font-size:13px;margin:0;color:#4a4640}
+pre.code{background:var(--code);color:#3a342c;border:1px solid var(--line);border-radius:11px;padding:14px 16px;overflow-x:auto;font:12.5px/1.62 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;box-shadow:var(--shadow);margin:6px 0 12px}
+pre.code .k{color:#8f3c20;font-weight:700}
+.conf{display:inline-block;font:700 11px/1.4 -apple-system,"Segoe UI",sans-serif;border-radius:999px;padding:3px 9px;border:1px solid}
+.conf.hi{color:#2f7d4f;background:#e9f3ec;border-color:#bfe0cd}.conf.med{color:#9a6a12;background:#f7eed8;border-color:#e6d2a6}
+.conf.low{color:#9a3b2a;background:#f6e7e2;border-color:#e6c3b8}
+ol.steps{margin:10px 0 14px;padding-left:22px}ol.steps li{margin:6px 0}
+footer{border-top:1px solid var(--line);background:#f7f3ec}.footin{padding:22px 0;font-size:13px;color:var(--muted)}
+@media(max-width:760px){h1{font-size:23px}.stitle{font-size:16px}}
+@media print{.topbar,#drawer,#backdrop,.backtop{display:none}.sec,.sub{box-shadow:none}details:not([open])>*{display:revert}}
+</style></head><body id="top"><div id="backdrop" onclick="menuClose()"></div><nav id="drawer" aria-label="Site navigation" inert><div class="t">Pages</div><a href="Overview.html">Overview</a><a href="Popular-Patterns.html">Popular Patterns</a><a href="Best-Practices.html">Best Practices</a><a href="Anthropic.html" class="cur">Anthropic (Official)</a><a href="Recommendations.html">Recommendations</a><a href="File-Details.html">File Details</a><a href="Sources.html">Sources</a><div class="cls"><button class="menubtn" onclick="menuClose()">Close</button></div></nav><div class="topbar"><div class="in"><nav class="tabs"><a href="Overview.html">Overview</a><a href="Popular-Patterns.html">Popular Patterns</a><a href="Best-Practices.html">Best Practices</a><a href="Anthropic.html" class="cur">Anthropic (Official)</a><a href="Recommendations.html">Recommendations</a><a href="File-Details.html">File Details</a><a href="Sources.html">Sources</a></nav><button id="mbtn" class="menubtn" onclick="menuFlip()" aria-expanded="false" aria-controls="drawer">&#9776; Menu</button><button id="allBtn" class="allbtn" onclick="toggleAll()">Expand all</button></div></div><header class="masthead"><div class="shell"><p class="kicker">Claude Cowork &middot; Folder Structure</p><h1>Anthropic (Official)</h1><p class="purpose">What Anthropic documents about Cowork, re-checked against current sources in June 2026, with confidence labels and links.</p><div class="chips"><span class="chip"><span class="dot acc"></span> <b>Official and verified</b></span><span class="chip"><b>Updated:</b> 2026-06-19</span></div></div></header><div class="shell"><main><p class="lead">What Anthropic documents about Cowork, re-checked against current sources in June 2026. Each fact carries a confidence label and a link, so you can verify it yourself.</p><details class="sec" id="facts" open><summary><span class="tri"></span><span class="stitle">Key Facts, with Confidence</span></summary><div class="secbody"><div class="tw"><table><thead><tr><th>Fact</th><th>Status</th><th>Confidence</th><th>Source</th></tr></thead><tbody><tr><td>Cowork reached general availability on macOS and Windows on <b>April 9, 2026</b>.</td><td>Confirmed</td><td><span class="conf hi">High</span></td><td><a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank" rel="noopener">Release notes</a>, <a href="https://pasqualepillitteri.it/en/news/260/claude-desktop-windows-cowork-guide" target="_blank" rel="noopener">Pasquale</a></td></tr><tr><td>Public betas first: macOS around <b>Jan 12, 2026</b>, Windows around <b>Feb 10, 2026</b> (feature parity).</td><td>Confirmed</td><td><span class="conf med">Medium</span></td><td><a href="https://laikalabs.ai/market-intelligence/claude-cowork-windows-launch-feature-parity-ai-agent" target="_blank" rel="noopener">Laika Labs</a></td></tr><tr><td><b>Projects</b>: persistent, self-contained workspaces with their own files, instructions, and memory; project data is local-only. Shipped around <b>March 2026</b>.</td><td>Confirmed</td><td><span class="conf hi">High</span></td><td><a href="https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork" target="_blank" rel="noopener">Help Center</a></td></tr><tr><td>You grant access per folder via <b>"Work in a Folder"</b>; a dialog asks read, edit, or delete (one-time or Always Allow). There is no fixed default workspace, and a configurable default is an open feature request.</td><td>Confirmed</td><td><span class="conf hi">High</span></td><td><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener">Get started</a>, <a href="https://github.com/anthropics/claude-code/issues/34604" target="_blank" rel="noopener">#34604</a></td></tr><tr><td>Team / Enterprise: shared workspaces use strict <b>file locks</b>; Cowork <b>project sharing is not supported</b>; skills can be shared or published to the org directory.</td><td>Confirmed</td><td><span class="conf hi">High</span></td><td><a href="https://support.claude.com/en/articles/13455879-use-claude-cowork-on-team-and-enterprise-plans" target="_blank" rel="noopener">Team & Enterprise</a></td></tr><tr><td>A <b>Feb 24, 2026</b> enterprise update added private plugin marketplaces and <b>about a dozen new MCP connectors</b> (Google Calendar, Drive, Gmail, DocuSign, Apollo, Clay, Outreach, Similarweb, MSCI, LegalZoom, FactSet, WordPress, Harvey).</td><td>Confirmed</td><td><span class="conf med">Medium</span></td><td><a href="https://support.claude.com/en/articles/13837433-manage-claude-cowork-plugins-for-your-organization" target="_blank" rel="noopener">Help Center</a>, <a href="https://www.constellationr.com/insights/news/anthropic-expands-cowork-plugins-across-enterprise-functions" target="_blank" rel="noopener">Constellation</a></td></tr><tr><td>Scheduled tasks run locally: your computer must be on with Claude Desktop running. No background cloud execution.</td><td>Confirmed</td><td><span class="conf hi">High</span></td><td><a href="https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork" target="_blank" rel="noopener">Help Center</a></td></tr><tr><td>The exact Claude model Cowork ships with is version-dependent and changes over releases; treat any specific version number as time-sensitive.</td><td>Note</td><td><span class="conf low">Low</span></td><td><a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank" rel="noopener">Release notes</a></td></tr></tbody></table></div><p class="backtop"><a href="#top">&uarr; Back to top</a></p></div></details><details class="sec" id="example" open><summary><span class="tri"></span><span class="stitle">Anthropic's Example Workspace</span></summary><div class="secbody"><p>The "Get started" article gives a plain example you can copy: task-named folders you point Cowork to one at a time. This is an illustration, not a required layout.</p><pre class="tree">Claude-Workspace/            &lt;- Anthropic&#x27;s worked example
+├── receipts-and-expenses/
+├── meeting-notes/
+├── research-projects/
+│   ├── project-alpha/
+│   └── project-beta/
+└── reports-and-drafts/</pre><p>With Projects, each project keeps its own instructions and memory alongside its files:</p><pre class="tree">~/&lt;your workspace&gt;/
+└── Projects/
+    └── Q2-board-deck/
+        ├── project-instructions.md   # auto-read for this project
+        ├── files/
+        └── memory.md</pre><p class="muted"><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener">Get started with Claude Cowork</a> · <a href="https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork" target="_blank" rel="noopener">Organize your tasks with projects</a></p><p class="backtop"><a href="#top">&uarr; Back to top</a></p></div></details><details class="sec" id="official" open><summary><span class="tri"></span><span class="stitle">Official Sources</span></summary><div class="secbody"><ul class="srclist"><li><b>Get started with Claude Cowork</b> <span class="muted">Anthropic Help Center, High confidence</span><div class="u"><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener">https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork</a></div></li><li><b>Organize your tasks with projects in Claude Cowork</b> <span class="muted">Anthropic Help Center, High confidence</span><div class="u"><a href="https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork" target="_blank" rel="noopener">https://support.claude.com/en/articles/14116274-organize-your-tasks-with-projects-in-claude-cowork</a></div></li><li><b>Use Claude Cowork on Team and Enterprise plans</b> <span class="muted">Anthropic Help Center, High confidence</span><div class="u"><a href="https://support.claude.com/en/articles/13455879-use-claude-cowork-on-team-and-enterprise-plans" target="_blank" rel="noopener">https://support.claude.com/en/articles/13455879-use-claude-cowork-on-team-and-enterprise-plans</a></div></li><li><b>Manage Claude Cowork plugins for your organization</b> <span class="muted">Anthropic Help Center, High confidence</span><div class="u"><a href="https://support.claude.com/en/articles/13837433-manage-claude-cowork-plugins-for-your-organization" target="_blank" rel="noopener">https://support.claude.com/en/articles/13837433-manage-claude-cowork-plugins-for-your-organization</a></div></li><li><b>Claude release notes</b> <span class="muted">Anthropic Help Center, High confidence</span><div class="u"><a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank" rel="noopener">https://support.claude.com/en/articles/12138966-release-notes</a></div></li><li><b>anthropics/knowledge-work-plugins</b> <span class="muted">Official open-source plugin repo</span><div class="u"><a href="https://github.com/anthropics/knowledge-work-plugins" target="_blank" rel="noopener">https://github.com/anthropics/knowledge-work-plugins</a></div></li><li><b>anthropics/claude-code, issue #34604</b> <span class="muted">Configurable default workspace request</span><div class="u"><a href="https://github.com/anthropics/claude-code/issues/34604" target="_blank" rel="noopener">https://github.com/anthropics/claude-code/issues/34604</a></div></li></ul><p class="muted">Facts re-verified by web search in June 2026. Dates and version details are time-sensitive; see <a href="Sources.html">Sources</a> for the full list.</p><p class="backtop"><a href="#top">&uarr; Back to top</a></p></div></details></main></div><footer><div class="shell"><div class="footin">A shareable guide to organizing a Claude Cowork workspace &middot; 2026-06-19. Tip: dedicate a separate workspace for finance, personal, family, and other jobs or clients.</div></div></footer>
+<script>
+function setAll(o){document.querySelectorAll('details').forEach(function(d){d.open=o;});syncBtn();}
+function toggleAll(){var any=false;document.querySelectorAll('details').forEach(function(d){if(!d.open)any=true;});setAll(any);}
+function syncBtn(){var b=document.getElementById('allBtn');if(!b)return;var any=false;document.querySelectorAll('details').forEach(function(d){if(!d.open)any=true;});b.textContent=any?'Expand all':'Collapse all';}
+function menuSet(o){document.body.classList.toggle('menu-open',o);var b=document.getElementById('mbtn');if(b)b.setAttribute('aria-expanded',o?'true':'false');var d=document.getElementById('drawer');if(d){if(o)d.removeAttribute('inert');else d.setAttribute('inert','');}}
+function menuFlip(){menuSet(!document.body.classList.contains('menu-open'));}
+function menuClose(){menuSet(false);}
+document.addEventListener('click',function(e){if(!e.target.closest)return;var a=e.target.closest('a[href^="#"]');if(a){var el=document.getElementById(a.getAttribute('href').slice(1));if(el&&el.tagName==='DETAILS')el.open=true;menuClose();}setTimeout(syncBtn,0);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')menuClose();});
+document.addEventListener('DOMContentLoaded',function(){syncBtn();menuSet(false);});
+</script>
+</body></html>

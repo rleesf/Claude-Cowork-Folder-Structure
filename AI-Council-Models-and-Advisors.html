@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Council Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink-900:#11161f; --ink-800:#182230; --ink-700:#1f2c3d; --ink-600:#2c3a4d;
+  --primary:#243b53; --primary-soft:#36506e;
+  --brass-700:#8a6a2f; --brass-500:#b5894a; --brass-400:#cba35e; --brass-200:#e7d3a8;
+  --gold-line:linear-gradient(90deg, transparent, var(--brass-500), transparent);
+  --surface:#fbf8f2; --surface-card:#ffffff; --surface-raised:#f4efe5; --surface-tint:#faf6ee;
+  --text:#1b2430; --text-strong:#11161f; --text-on-dark:#f4efe5; --text-on-dark-strong:#fffefb;
+  --muted:#5d6b7c; --muted-on-dark:#a9b6c6;
+  --line:#e6ded0; --line-strong:#d8cdb8; --line-on-dark:rgba(231,211,168,.18);
+  --good:#2f6b4f; --good-soft:#e3efe7; --warn:#9a5a25; --warn-soft:#f5e9dc;
+  --bg-app:radial-gradient(120% 80% at 50% -10%, #fffdf8 0%, var(--surface) 46%, #f6f1e7 100%);
+  --shadow-sm:0 1px 2px rgba(17,22,31,.05);
+  --shadow-md:0 6px 18px -8px rgba(17,22,31,.18),0 2px 6px -2px rgba(17,22,31,.08);
+  --shadow-lg:0 24px 60px -28px rgba(17,22,31,.40),0 8px 24px -12px rgba(17,22,31,.18);
+  --shadow-brass:0 10px 30px -12px rgba(181,137,74,.45);
+  --r-sm:8px; --r-md:14px; --r-lg:20px; --pill:999px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --font-display:"Fraunces","Newsreader","Source Serif 4",Georgia,serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg-app); color:var(--text);
+  font-family:var(--font-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+h1,h2,h3,h4{font-family:var(--font-display); color:var(--text-strong); margin:0 0 .4em; letter-spacing:-.015em; font-weight:600}
+p{margin:0 0 1em}
+a{color:var(--brass-700); text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#efeadf; border:1px solid var(--line); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,Menlo,Consolas,monospace; color:#33404f}
+.eyebrow{font-family:var(--font-body); font-size:.76rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--brass-700); display:inline-flex; align-items:center; gap:10px}
+.eyebrow::before{content:""; width:26px; height:1px; background:var(--brass-500)}
+
+:focus-visible{outline:2px solid var(--brass-500); outline-offset:2px; border-radius:4px}
+/* Top bar */
+.topbar{position:sticky; top:0; z-index:50; background:rgba(251,248,242,.96); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.topbar .inner{max-width:1520px; margin:0 auto; padding:11px 26px; display:flex; align-items:center; gap:16px; justify-content:space-between}
+.brand{display:flex; align-items:center; gap:11px; font-weight:700; font-size:1rem; font-family:var(--font-display); color:var(--text-strong)}
+.brand .seal{width:30px;height:30px;border-radius:50%;background:radial-gradient(120% 120% at 30% 25%,#ffffff,var(--surface-raised));display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--brass-400);color:var(--brass-700)}
+.brand .seal svg{width:17px;height:17px}
+.topnav{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.pill{font-size:.82rem; padding:5px 12px; border:1px solid var(--line-strong); border-radius:var(--pill); color:var(--muted); background:var(--surface-card)}
+.pill:hover{border-color:var(--brass-400); color:var(--brass-700); text-decoration:none}
+.toggle-all{display:inline-flex; align-items:center; gap:7px; cursor:pointer; font-size:.82rem; font-weight:600; color:var(--ink-900); background:linear-gradient(180deg,var(--brass-400),var(--brass-500)); border:1px solid var(--brass-500); border-radius:var(--pill); padding:6px 14px; box-shadow:var(--shadow-brass)}
+.toggle-all:hover{transform:translateY(-1px)}
+.toggle-all .ic{font-size:.9rem; transition:transform .2s; display:inline-block}
+
+.container{max-width:1180px; margin:0 auto; padding:28px 26px 4px}
+
+/* Masthead */
+.masthead{position:relative; color:var(--text); border-radius:var(--r-lg); padding:54px 50px 46px; overflow:hidden;
+  background:linear-gradient(155deg, var(--surface-tint) 0%, var(--surface-raised) 100%);
+  border:1px solid var(--line-strong); box-shadow:var(--shadow-md); margin-bottom:26px}
+.masthead::after{content:""; position:absolute; inset:13px; border:1px solid var(--brass-400); border-radius:14px; pointer-events:none; opacity:.5}
+.masthead .eyebrow{color:var(--brass-700)} .masthead .eyebrow::before{background:var(--brass-500); width:32px; height:2px}
+.masthead h1{color:var(--ink-900); font-size:clamp(2.4rem,5vw,3.7rem); line-height:1.04; letter-spacing:-.02em; margin:14px 0 14px; position:relative; font-variation-settings:"opsz" 144; text-wrap:balance}
+.masthead p{color:var(--ink-700); font-size:1.18rem; line-height:1.55; max-width:62ch; margin:0; position:relative}
+.seal-rule{height:2px; width:130px; margin-top:24px; background:var(--gold-line)}
+.masthead .meta{margin-top:24px; display:flex; flex-wrap:wrap; gap:9px; position:relative}
+.masthead .meta span{background:var(--surface-card); border:1px solid var(--line); padding:6px 13px; border-radius:var(--pill); font-size:.82rem; color:var(--muted)}
+
+/* Blocks */
+.block{background:var(--surface-card); border:1px solid var(--line-strong); border-radius:var(--r-lg); box-shadow:var(--shadow-md); margin:0 0 20px; overflow:hidden}
+.block-head{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:20px 26px; border-bottom:1px solid var(--line)}
+.block-head h2{font-size:1.5rem; margin:0}
+.block-body{padding:24px 26px}
+.lead{font-size:1.16rem; line-height:1.6; color:var(--text)}
+.section-head{margin:42px 2px 26px; max-width:70ch}
+.section-head h2{font-size:clamp(2rem,3.4vw,2.65rem); margin:10px 0 6px; font-variation-settings:"opsz" 60}
+.section-head p{color:var(--muted); font-size:1.08rem; margin:0}
+
+.kp{display:grid; grid-template-columns:repeat(3,1fr); gap:15px}
+.kp .item{background:var(--surface-tint); border:1px solid var(--line); border-radius:var(--r-md); padding:17px 18px}
+.kp .item b{display:block; margin-bottom:5px; color:var(--text-strong); font-family:var(--font-display); font-size:1.06rem}
+.kp .item span{font-size:.93rem; color:var(--muted)}
+
+/* Council card grid */
+.council-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; align-items:stretch; margin:0 0 46px}
+.council-card{position:relative; height:100%; display:flex; flex-direction:column; background:var(--surface-card); border:1px solid var(--line-strong); border-radius:var(--r-lg); padding:30px 24px 22px; box-shadow:var(--shadow-md); overflow:hidden; transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease)}
+.council-card::before{content:""; position:absolute; inset:0 0 auto 0; height:3px; background:var(--gold-line); opacity:.35}
+.council-card:hover{transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--brass-400)}
+.council-card:hover::before{opacity:.9}
+.council-emblem{width:54px; height:54px; border-radius:14px; display:grid; place-items:center; background:radial-gradient(120% 120% at 30% 25%, #ffffff, var(--surface-raised)); border:1px solid var(--brass-400); box-shadow:0 0 0 1px rgba(181,137,74,.14), var(--shadow-sm); color:var(--primary); margin-bottom:16px}
+.council-emblem svg{width:28px; height:28px}
+.council-name{font-family:var(--font-display); font-weight:600; font-size:1.3rem; line-height:1.18; color:var(--text-strong); margin:0 0 7px; font-variation-settings:"opsz" 28; letter-spacing:-.01em}
+.council-essence{font-size:1rem; color:var(--muted); margin:0 0 16px; line-height:1.5}
+.seat-row{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:15px}
+.seat-chip{font-size:.75rem; font-weight:600; color:var(--ink-700); background:var(--surface); border:1px solid var(--line-strong); padding:5px 11px; border-radius:var(--pill); white-space:nowrap; letter-spacing:.01em}
+.council-bestfor{font-size:.86rem; color:var(--text); padding:12px 14px; background:var(--surface-raised); border:1px solid var(--line); border-radius:var(--r-sm); margin-bottom:18px}
+.council-bestfor b{color:var(--brass-700); font-weight:700; letter-spacing:.1em; text-transform:uppercase; font-size:.66rem; display:block; margin-bottom:2px}
+.council-cta{margin-top:auto; align-self:stretch; display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:.9rem; color:var(--brass-700); text-decoration:none; padding-top:15px; border-top:1px solid var(--line); width:100%; transition:gap .25s var(--ease), color .25s var(--ease)}
+.council-cta svg{transition:transform .25s var(--ease)}
+.council-cta:hover{gap:12px; color:var(--ink-900); text-decoration:none}
+.council-cta:hover svg{transform:translateX(2px)}
+
+
+/* In-card collapse */
+.cc-collapse{border-top:1px solid var(--line); margin:2px 0 4px}
+.cc-collapse>summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 1px; font-size:.72rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--brass-700)}
+.cc-collapse>summary::-webkit-details-marker{display:none}
+.cc-collapse>summary:hover{color:var(--brass-500)}
+.cc-chev{width:8px; height:8px; border-right:2px solid var(--brass-500); border-bottom:2px solid var(--brass-500); transform:rotate(45deg); transition:transform .22s ease; flex:0 0 auto; margin-right:2px}
+.cc-collapse[open]>summary .cc-chev{transform:rotate(-135deg)}
+.cc-rev{padding:4px 0 12px}
+/* Prompt expander */
+.promptbox{margin:14px 0 2px; border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden}
+.promptbox>summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; padding:12px 14px; font-size:1rem; font-weight:600; color:var(--ink-700); user-select:none}
+.promptbox>summary::-webkit-details-marker{display:none}
+.promptbox>summary:hover{color:var(--brass-700)}
+.promptbox[open]>summary{border-bottom:1px solid var(--line); color:var(--ink-900)}
+.promptbox>summary .cc-chev{transform:rotate(-45deg)}
+.promptbox[open]>summary .cc-chev{transform:rotate(45deg)}
+.promptbox .codewrap{margin:0}
+.promptbox pre.code{border:none; border-radius:0}
+.promptbox .copybtn{top:10px; right:12px}
+/* Foundations feature emphasis */
+details.sec.feature{border:1px solid var(--brass-400); box-shadow:var(--shadow-lg)}
+details.sec.feature>summary{background:linear-gradient(90deg, var(--surface-raised), var(--surface-tint))}
+details.sec.feature .sub.openpanel{background:linear-gradient(180deg, var(--surface-card), var(--surface-tint))}
+details.sec.feature .sub.openpanel>summary{cursor:default}
+details.sec.feature .sub.openpanel .tri{opacity:.0}
+/* Flowchart + portraits */
+.figure{margin:8px 0; text-align:center}
+.figure svg{max-width:100%; height:auto}
+.figure figcaption{font-size:.85rem; color:var(--muted); margin-top:8px}
+.advisor-portrait{width:72px; height:72px; flex:0 0 auto; border-radius:50%; overflow:hidden; border:1px solid var(--brass-400); box-shadow:0 0 0 1px rgba(181,137,74,.12), var(--shadow-sm)}
+.advisor-portrait svg{width:100%; height:100%; display:block}
+.council-detail .ribbon{align-items:center}
+/* Tables */
+.tablewrap{overflow-x:auto; border:1px solid var(--line-strong); border-radius:var(--r-md); margin:8px 0 4px}
+table.tbl{width:100%; border-collapse:collapse; font-size:.92rem; min-width:600px}
+table.tbl th{background:var(--surface-raised); color:var(--text-strong); text-align:left; padding:11px 15px; font-weight:600; border-bottom:1px solid var(--line-strong); vertical-align:top; font-family:var(--font-body)}
+table.tbl td{padding:11px 15px; border-bottom:1px solid var(--line); vertical-align:top}
+table.tbl tr:last-child td{border-bottom:none}
+table.tbl tr:nth-child(even) td{background:var(--surface-tint)}
+.tbl-note{font-size:.82rem; color:var(--muted); margin:8px 2px 0}
+
+.badge{display:inline-block; font-size:.71rem; font-weight:700; padding:2px 9px; border-radius:var(--pill); white-space:nowrap}
+.badge.high{background:var(--good-soft); color:var(--good)}
+.badge.med{background:var(--warn-soft); color:var(--warn)}
+.badge.pop{background:var(--brass-200); color:#6a4f18}
+.badge.syn{background:#e7edf3; color:var(--primary)}
+
+/* Shell + sidebar */
+.shell{max-width:1180px; margin:0 auto; padding:8px 26px 100px}
+.toc-wrap{position:sticky; top:66px; align-self:start}
+.toc{background:var(--surface-card); border:1px solid var(--line-strong); border-radius:var(--r-md); box-shadow:var(--shadow-md); padding:16px 14px; max-height:calc(100vh - 90px); overflow-y:auto}
+.toc h3{font-size:.74rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--brass-700); margin:6px 8px 10px}
+.toc a{display:block; padding:8px 11px; border-radius:7px; color:var(--muted); font-size:.91rem; font-weight:500; line-height:1.35}
+.toc a:hover{background:var(--surface-tint); color:var(--brass-700); text-decoration:none}
+
+/* Collapsibles */
+details.sec{background:var(--surface-card); border:1px solid var(--line-strong); border-radius:var(--r-lg); box-shadow:var(--shadow-md); margin:0 0 16px; overflow:hidden; scroll-margin-top:72px}
+details.sec>summary{list-style:none; cursor:pointer; padding:22px 26px; display:flex; align-items:center; gap:16px; user-select:none}
+details.sec>summary::-webkit-details-marker{display:none}
+.tri{flex:0 0 auto; color:var(--brass-500); font-size:1.5rem; line-height:1; transition:transform .22s ease; display:inline-block}
+details[open]>summary .tri{transform:rotate(90deg)}
+.s-num{flex:0 0 auto; width:36px; height:36px; border-radius:50%; background:radial-gradient(120% 120% at 30% 25%,#ffffff,var(--surface-raised)); color:var(--brass-700); font-family:var(--font-display); font-weight:700; font-size:1rem; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--brass-400); box-shadow:0 0 0 1px rgba(181,137,74,.12)}
+.s-titlewrap{flex:1 1 auto; min-width:0}
+.s-title{font-size:1.3rem; font-weight:600; margin:0; font-family:var(--font-display)}
+.s-sub{font-size:.92rem; color:var(--muted); margin:2px 0 0; font-weight:400; font-family:var(--font-body)}
+.sec-body{padding:10px 28px 28px; border-top:1px solid var(--line)}
+
+details.sub{background:var(--surface-tint); border:1px solid var(--line); border-radius:var(--r-md); margin:13px 0; overflow:hidden; scroll-margin-top:72px}
+details.sub>summary{list-style:none; cursor:pointer; padding:15px 18px; display:flex; align-items:center; gap:13px; user-select:none}
+details.sub>summary::-webkit-details-marker{display:none}
+details.sub .tri{font-size:1.2rem; color:var(--brass-700)}
+details.sub .s-title{font-size:1.08rem}
+details.sub>summary .s-sub{display:block; font-size:.85rem; font-weight:400; color:var(--muted); margin-top:1px}
+.sub-body{padding:8px 20px 18px}
+.sub-body h4.grp{font-family:var(--font-display); font-weight:600; font-size:1.02rem; color:var(--brass-700); margin:18px 0 8px}
+.subs-bar{display:flex; justify-content:flex-end; margin:2px 0 8px}
+.subs-bar .toggle-all{background:none; color:var(--brass-700); box-shadow:none; border-color:var(--line-strong)}
+
+/* Detailed council entry */
+.council-detail{border:1px solid var(--line-strong); border-radius:var(--r-md); padding:20px 22px; margin:16px 0; background:var(--surface-card)}
+.council-detail .ribbon{display:flex; align-items:center; gap:12px; margin-bottom:10px}
+.council-detail .ribbon .num{width:34px;height:34px;border-radius:50%;background:radial-gradient(120% 120% at 30% 25%,#ffffff,var(--surface-raised));color:var(--brass-700);border:1px solid var(--brass-400);box-shadow:0 0 0 1px rgba(181,137,74,.12);font-family:var(--font-display);font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-size:.92rem}
+.council-detail h4{font-size:1.3rem; margin:0; font-family:var(--font-display)}
+.seat-list{margin:10px 0 0; padding:0; list-style:none}
+.seat-list li{padding:7px 0; border-bottom:1px dashed var(--line); font-size:.96rem}
+.seat-list li:last-child{border-bottom:none}
+.seat-list b{color:var(--text-strong)}
+
+.call{border-radius:var(--r-md); padding:16px 18px; margin:14px 0; border:1px solid var(--line); font-size:.96rem; background:var(--surface-tint)}
+.call .t{font-weight:700; margin-bottom:4px; font-family:var(--font-display)}
+.call.tip{background:#f3f6ef; border-color:#dfe7d4}.call.tip .t{color:var(--good)}
+.call.note{background:var(--surface-tint); border-color:var(--line)}.call.note .t{color:var(--brass-700)}
+.call.risk{background:var(--warn-soft); border-color:#ecd9c2}.call.risk .t{color:var(--warn)}
+
+ul.clean{margin:0 0 1em; padding-left:1.25em} ul.clean li{margin:.4em 0}
+ol.steps{margin:0 0 1em; padding-left:1.3em} ol.steps li{margin:.5em 0}
+ol.build-steps{list-style:none; padding-left:0; counter-reset:bstep; margin:10px 0 0}
+ol.build-steps>li{counter-increment:bstep; position:relative; padding:1px 0 0 50px; margin:0 0 20px; min-height:34px}
+ol.build-steps>li::before{content:counter(bstep); position:absolute; left:0; top:0; width:32px; height:32px; border-radius:50%; background:var(--surface-card); border:1px solid var(--brass-400); color:var(--brass-700); font-family:var(--font-display); font-weight:700; font-size:1.02rem; display:flex; align-items:center; justify-content:center}
+.build-steps .step-h{display:block; font-family:var(--font-display); font-weight:600; font-size:1.12rem; color:var(--ink-900); margin:4px 0 4px}
+.build-steps .step-d{display:block; color:var(--ink-700)}
+.build-steps .codewrap{margin:10px 0 0}
+
+.codewrap{position:relative; margin:14px 0}
+.codewrap .label{margin:0 0 9px; font-size:.92rem; font-weight:500; color:var(--muted); line-height:1.5}
+.codewrap .label::before{content:""}
+pre.code{background:#f6f2e9; color:#33404f; border-radius:var(--r-md); padding:16px 18px; overflow-x:auto; font-size:.86rem; line-height:1.6; font-family:ui-monospace,Menlo,Consolas,monospace; margin:0; border:1px solid var(--line-strong)}
+.copybtn{position:absolute; top:26px; right:10px; background:#fff; color:var(--ink-700); border:1px solid var(--line-strong); border-radius:6px; font-size:.72rem; padding:4px 9px; cursor:pointer}
+.copybtn:hover{background:var(--surface-raised); color:var(--ink-900)}
+
+.back-top{display:inline-flex; align-items:center; gap:6px; font-size:.82rem; color:var(--muted); margin:12px 2px 0; cursor:pointer; background:none; border:none; padding:4px 0}
+.back-top:hover{color:var(--brass-700)}
+#toTop{position:fixed; right:22px; bottom:22px; z-index:60; width:48px; height:48px; border-radius:50%; background:radial-gradient(120% 120% at 30% 25%,#ffffff,var(--surface-raised)); color:var(--brass-700); border:1px solid var(--brass-400); cursor:pointer; font-size:1.2rem; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; transform:translateY(8px)}
+#toTop.show{opacity:1; pointer-events:auto; transform:translateY(0)}
+#toTop:hover{color:#fff}
+
+ol.src{font-size:.87rem; color:var(--muted); padding-left:1.4em} ol.src li{margin:.45em 0} ol.src a{word-break:break-word}
+.srcgrid h4{font-size:1rem; color:var(--brass-700); margin:16px 0 4px; font-family:var(--font-display)}
+.footer{margin-top:30px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem}
+
+@media (max-width:1000px){ .shell{grid-template-columns:1fr; gap:16px} .toc-wrap{position:static} .toc{max-height:none} .kp{grid-template-columns:1fr} .council-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:820px){
+  body{font-size:16px}
+  .container{padding:18px 14px 2px}
+  .shell{padding:6px 14px 80px}
+  .masthead{padding:34px 22px}
+  .sec-body{padding-left:16px; padding-right:16px}
+  .block-body{padding:18px 16px}
+  .topbar .inner{padding:10px 14px}
+  .brand span.full{display:none}
+  .s-num{width:26px; height:26px; font-size:.8rem}
+  .council-card{padding:24px 18px 18px}
+  .council-grid{gap:16px}
+  .section-head{margin:26px 2px 18px}
+  .masthead .meta{gap:7px}
+  .masthead .meta span{font-size:.76rem; padding:5px 11px}
+  .topnav .pill{display:none}
+  .council-grid{grid-template-columns:1fr; gap:16px}
+}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *,*::before,*::after{transition-duration:.001ms !important; animation-duration:.001ms !important} .council-card:hover{transform:none} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <div class="brand"><span class="seal"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M5 20c1.5-3 4-4.5 7-4.5s5.5 1.5 7 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span class="full">The AI Council Playbook</span></div>
+    <div class="topnav">
+      <a class="pill" href="AI-Council-Overview.html">Overview</a>
+      <a class="pill" href="AI-Council-Detailed-Guide.html">Detailed Guide</a>
+      <a class="pill" href="AI-Council-Types-Deep-Research.html">Types &amp; Domains</a>
+      <button class="toggle-all" data-toggle-all="#deepdive" aria-expanded="false"><span class="ic">&#9656;</span><span class="lbl">Expand all sections</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="masthead">
+    <span class="eyebrow">A Practical Decision Playbook</span>
+    <h1>The AI Council Playbook</h1>
+    <p>The fastest way to a sharper decision is to seat the right advisors. This playbook gathers the proven AI council types, the advisors who sit on each, and the models that give them their voice.</p>
+    <div class="seal-rule"></div>
+    <div class="meta">
+      <span>Eleven evidence-backed council types</span>
+      <span>40+ advisors</span>
+      <span>Plus departmental rosters</span>
+      <span>Model guidance by family</span>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="block">
+    <div class="block-head"><h2>Summary</h2><span class="pill">Start here</span></div>
+    <div class="block-body">
+      <p class="lead">An AI council is a panel of distinct advisor minds you convene around a single decision. Each seat is built to think differently, one to challenge, one to expand, one to count the cost, one to act, and a chair to weigh it all and rule.</p>
+      <p>The instinct is old. Marvin Minsky argued in 1986 that intelligence itself emerges from many simple minds working together. The AI version arrived fast: a widely read MIT Sloan piece on the personal board of advisors in mid 2025, Andrej Karpathy's open-source LLM Council in late 2025, and Perplexity's Model Council in early 2026. They share one motivation. A lone AI tends to agree with you, and a council is the cure. the Foundations section below tells the fuller story.</p>
+      <p>You do not have to design the table yourself. Practitioners and researchers have already established the councils worth knowing, from a five-advisor decision panel to a coding council modeled on a real software team. The cards below are the catalog. Choose the one that fits your decision, adjust a seat or two, and convene it.</p>
+      <div class="call note"><div class="t">The principle behind every council here</div>Telling an AI it is a "world-class expert" does not make its facts more accurate, a 2025 University of Pennsylvania study confirmed as much. A council earns its keep by widening perspective and forcing genuine disagreement on judgment calls. Convene one to pressure-test a decision, and verify the underlying facts on their own.</div>
+    </div>
+  </div>
+
+  <!-- KEY POINTS -->
+  <div class="block">
+    <div class="block-head"><h2>Key Points</h2></div>
+    <div class="block-body">
+      <div class="kp">
+        <div class="item"><b>Leverage Best Practices</b><span>Start from a proven council that fits your decision, then adjust a seat or two. No need to reinvent the wheel.</span></div>
+        <div class="item"><b>Five Is the Standard Table</b><span>Three advisors for a quick call, five for most decisions, up to eight when the cost of error is real.</span></div>
+        <div class="item"><b>Seat Your Challengers</b><span>Leave out any advisor whose only role is to agree with you. The friction is the value.</span></div>
+        <div class="item"><b>Role First, Name Second</b><span>Define the function, then optionally give it a face: a capital realist in the spirit of Buffett.</span></div>
+        <div class="item"><b>Every Department Has a Council</b><span>Marketing, sales, finance, product, and engineering each have a natural roster of advisor roles.</span></div>
+        <div class="item"><b>Different Minds, Different Models</b><span>For a multi-model council, seat different AI families so they do not share one blind spot.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="shell">
+
+  <main id="deepdive">
+
+  <details class="sec feature" id="sf" open>
+    <summary><span class="tri">&#9656;</span><span class="s-num">I</span><span class="s-titlewrap"><div class="s-title">Foundations: What It Is, How It Began, and Why It Works</div><div class="s-sub">The Plain-English Background, for Newcomers</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">If the idea of an AI council is new to you, start here. This section explains what a council is in everyday terms, where it came from, why it produces better answers than asking one AI once, and the handful of words you will meet along the way.</p>
+      <figure class="figure">
+        <svg viewBox="0 30 920 128" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+          <defs><marker id="bArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#b5894a"/></marker></defs>
+          <g stroke="#b5894a" stroke-width="2.5" fill="none" stroke-linecap="round">
+            <line x1="178" y1="100" x2="196" y2="100" marker-end="url(#bArrow)"/>
+            <line x1="350" y1="100" x2="368" y2="100" marker-end="url(#bArrow)"/>
+            <line x1="522" y1="100" x2="540" y2="100" marker-end="url(#bArrow)"/>
+            <line x1="694" y1="100" x2="712" y2="100" marker-end="url(#bArrow)"/>
+          </g>
+          <g font-family="Fraunces, Georgia, serif">
+            <g><rect x="22" y="50" width="156" height="100" rx="16" fill="#ffffff" stroke="#b5894a" stroke-width="2"/><circle cx="100" cy="82" r="19" fill="#faf6ee" stroke="#cba35e" stroke-width="1.5"/><text x="100" y="91" text-anchor="middle" font-size="24" font-weight="600" fill="#1f2c3d" font-family="Fraunces, Georgia, serif">?</text><text x="100" y="120" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2c3d">Your Question</text><text x="100" y="137" text-anchor="middle" font-size="9.5" fill="#5d6b7c" font-family="Inter,sans-serif">the decision you face</text><text x="100" y="42" text-anchor="middle" font-size="10" font-weight="700" fill="#b5894a">1</text></g>
+            <g><rect x="194" y="50" width="156" height="100" rx="16" fill="#ffffff" stroke="#b5894a" stroke-width="2"/><circle cx="272" cy="82" r="19" fill="#faf6ee" stroke="#cba35e" stroke-width="1.5"/><circle cx="264" cy="79" r="3.6" fill="none" stroke="#1f2c3d" stroke-width="2"/><path d="M258 89 q6-6 12 0" fill="none" stroke="#1f2c3d" stroke-width="2" stroke-linecap="round"/><circle cx="281" cy="79" r="3.6" fill="none" stroke="#b5894a" stroke-width="2"/><path d="M275 89 q6-6 12 0" fill="none" stroke="#b5894a" stroke-width="2" stroke-linecap="round"/><text x="272" y="120" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2c3d">Advisors Answer</text><text x="272" y="137" text-anchor="middle" font-size="9.5" fill="#5d6b7c" font-family="Inter,sans-serif">independently</text><text x="272" y="42" text-anchor="middle" font-size="10" font-weight="700" fill="#b5894a">2</text></g>
+            <g><rect x="366" y="50" width="156" height="100" rx="16" fill="#ffffff" stroke="#b5894a" stroke-width="2"/><circle cx="444" cy="82" r="19" fill="#faf6ee" stroke="#cba35e" stroke-width="1.5"/><path d="M434 78 q0-6 7-6 q7 0 7 6 q0 6-7 6 l-3 0 l-2 3 l0-3 q-2-1-2-6 Z" fill="none" stroke="#1f2c3d" stroke-width="1.9" stroke-linejoin="round"/><path d="M455 86 q0-6-7-6 q-7 0-7 6 q0 6 7 6 l3 0 l2 3 l0-3 q2-1 2-6 Z" fill="none" stroke="#b5894a" stroke-width="1.9" stroke-linejoin="round"/><text x="444" y="120" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2c3d">They Debate</text><text x="444" y="137" text-anchor="middle" font-size="9.5" fill="#5d6b7c" font-family="Inter,sans-serif">and review, blind</text><text x="444" y="42" text-anchor="middle" font-size="10" font-weight="700" fill="#b5894a">3</text></g>
+            <g><rect x="538" y="50" width="156" height="100" rx="16" fill="#ffffff" stroke="#b5894a" stroke-width="2"/><circle cx="616" cy="82" r="19" fill="#faf6ee" stroke="#cba35e" stroke-width="1.5"/><path d="M607 74 L616 82 M625 74 L616 82 M607 90 L616 82 M625 90 L616 82" fill="none" stroke="#1f2c3d" stroke-width="2" stroke-linecap="round"/><circle cx="616" cy="82" r="2.6" fill="#b5894a"/><text x="616" y="120" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2c3d">The Chairman</text><text x="616" y="137" text-anchor="middle" font-size="9.5" fill="#5d6b7c" font-family="Inter,sans-serif">synthesizes</text><text x="616" y="42" text-anchor="middle" font-size="10" font-weight="700" fill="#b5894a">4</text></g>
+            <g><rect x="710" y="50" width="186" height="100" rx="16" fill="#ffffff" stroke="#b5894a" stroke-width="2.4"/><circle cx="803" cy="82" r="19" fill="#f4efe5" stroke="#b5894a" stroke-width="1.8"/><path d="M795 82 l6 6 l10 -11" fill="none" stroke="#2f6b4f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="803" y="120" text-anchor="middle" font-size="13" font-weight="700" fill="#1f2c3d">One Clear Verdict</text><text x="803" y="137" text-anchor="middle" font-size="9.5" fill="#5d6b7c" font-family="Inter,sans-serif">that you can act on</text><text x="803" y="42" text-anchor="middle" font-size="10" font-weight="700" fill="#b5894a">5</text></g>
+          </g>
+        </svg>
+        <figcaption>How an AI council turns one question into a decision you can defend.</figcaption>
+      </figure>
+
+      <div id="sf-subs">
+        <details class="sub openpanel" open><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">What an AI Council Is</span></span></summary>
+          <div class="sub-body">
+            <p>An AI council is a way of writing your request, not a paid feature or a button. You instruct the AI to answer from several named advisor viewpoints, let them disagree, then have a chair combine everything into one verdict. The same setup runs on a free account or across several paid models.</p>
+            <p>Picture a small boardroom. You bring a decision. A handful of advisors, each chosen to think differently, weigh in, and a chair sums up the meeting with a clear call. An AI council is exactly this, run by AI. One model can play every seat, or different models can each take a chair.</p>
+          </div>
+        </details>
+        <details class="sub openpanel" open><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">How the Idea Developed</span></span></summary>
+          <div class="sub-body">
+            <ul class="clean">
+              <li><b>1986, Society of Mind.</b> Marvin Minsky argued that intelligence emerges from many simple agents interacting. The intellectual root of every multi-agent system.</li>
+              <li><b>2018, debate as a method.</b> Geoffrey Irving, Paul Christiano, and Dario Amodei at OpenAI proposed "AI Safety via Debate": let two AIs argue opposing sides while a judge decides, on the theory that judging an argument is easier than making one.</li>
+              <li><b>May 2023, multi-agent debate proven.</b> A team at MIT (Du, Torralba, Tenenbaum, and Mordatch) showed that having several model instances debate and critique each other measurably improves factual accuracy and reasoning over a single answer.</li>
+              <li><b>Mid-2023, role-based agent teams.</b> Frameworks like ChatDev, MetaGPT, and Microsoft's AutoGen cast LLMs as a staffed team, a product manager, an engineer, a reviewer, that collaborates through defined roles.</li>
+              <li><b>2024, Mixture-of-Agents.</b> Wang and colleagues layered several open models so each refines the others' answers, and the ensemble beat a single top model on standard benchmarks.</li>
+              <li><b>July 2025, the personal board.</b> MIT Sloan Management Review published an executive's account of building a personal board of directors from AI personas modeled on figures like Steve Jobs and Indra Nooyi. One of its most-read pieces of the year.</li>
+              <li><b>November 2025, the LLM Council.</b> Andrej Karpathy released a free, open-source app that sends a question to several models, has them rank each other anonymously, then a chair model writes the answer. Tens of thousands of developers starred it.</li>
+              <li><b>February 2026, Model Council goes mainstream.</b> Perplexity launched Model Council, running three frontier models at once and reconciling them for everyday users.</li>
+              <li><b>2026, the skill wave.</b> Practitioners such as Ole Lehmann and Allie K. Miller packaged single-model, five-to-eight-advisor councils into reusable skills, and the format spread across YouTube and X.</li>
+            </ul>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Why a Council Works</span></span></summary>
+          <div class="sub-body">
+            <p>AI assistants are trained to be helpful and agreeable, which makes them lean toward telling you what you want to hear. Researchers call this sycophancy.</p>
+            <div class="call risk"><div class="t">The evidence</div>A Stanford-led study in the journal <em>Science</em> (2026) tested 11 leading models and found they affirmed a user's intended action roughly 50% more often than other people did, even when the action showed poor judgment. People who received the agreeable advice grew more certain they were right and rated the flattering model as better, so the bias is easy to miss.</div>
+            <p>A council counters this in three ways. An assigned critic looks only for what fails, so the criticism a single agreeable answer hides gets said out loud. Advisors answer independently before comparing notes, which preserves real differences instead of collapsing into easy agreement. And an anonymized review step lets the AI judge the answers honestly rather than defend its own.</p>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Honest Evidence</span></span></summary>
+          <div class="sub-body">
+            <p>A council is a tool, not magic. The balanced picture:</p>
+            <ul class="clean">
+              <li><b>Single AIs flatter you.</b> Well documented (above), and the core reason to seek structured disagreement.</li>
+              <li><b>Debate helps, but not always.</b> Multi-agent debate can raise accuracy, yet several 2025 studies found it often fails to beat a cheaper "sample many times and vote" baseline.</li>
+              <li><b>A bad council goes wrong.</b> A 2026 study in <em>Scientific Reports</em> (a Nature journal) showed one confident, persuasive but mistaken advisor can drop a group's accuracy by 10 to 40 percent, and adding more advisors does not reliably fix it.</li>
+              <li><b>Personas do not improve facts.</b> The University of Pennsylvania (2025) found expert-persona labels do not make answers more factually accurate.</li>
+            </ul>
+            <div class="call note"><div class="t">The takeaway</div>Use a council to widen perspective and force dissent on judgment calls. Keep a human as the decider, and verify the underlying facts on their own.</div>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">A Quick Vocabulary</span></span></summary>
+          <div class="sub-body">
+            <div class="tablewrap">
+              <table class="tbl">
+                <thead><tr><th>Term</th><th>Plain meaning</th></tr></thead>
+                <tbody>
+                  <tr><td>Model / LLM</td><td>An AI system you chat with, such as Claude, ChatGPT, or Gemini.</td></tr>
+                  <tr><td>Prompt</td><td>The instructions and question you give the AI.</td></tr>
+                  <tr><td>Advisor / seat / persona</td><td>One role the AI plays, with a defined point of view.</td></tr>
+                  <tr><td>Chairman / synthesizer</td><td>The final step that reads every advisor and writes one verdict.</td></tr>
+                  <tr><td>Round</td><td>One pass of answers. Round 1 is independent; Round 2 is after advisors read each other.</td></tr>
+                  <tr><td>Token</td><td>The unit AI usage is measured and billed in. More advisors use more tokens.</td></tr>
+                  <tr><td>Multi-model</td><td>A council whose seats are filled by different AI products rather than one.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <details class="sec" id="sg">
+    <summary><span class="tri">&#9656;</span><span class="s-num">II</span><span class="s-titlewrap"><div class="s-title">Ways to Group the Councils</div><div class="s-sub">Five Plain Questions That Describe Almost Any Council</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">There are dozens of council types, but they sort along a few simple axes. Answer these five questions and you have described nearly any council, including all the ones above.</p>
+      <div class="tablewrap">
+        <table class="tbl">
+          <thead><tr><th>The question</th><th>What it settles</th><th>The options</th></tr></thead>
+          <tbody>
+            <tr><td><b>1. Who is on it?</b></td><td>Composition</td><td>One AI playing many roles, or several different AI models, each a seat.</td></tr>
+            <tr><td><b>2. How do they talk?</b></td><td>Interaction</td><td>Answer separately and compare (parallel), argue it out (debate), vote (consensus), or a lead assigns the work (orchestrator).</td></tr>
+            <tr><td><b>3. What is it for?</b></td><td>Purpose</td><td>Deciding, researching, brainstorming, grading, building, or stress-testing.</td></tr>
+            <tr><td><b>4. Do they agree or fight?</b></td><td>Relationship</td><td>A friendly team, deliberate opponents, or a mix of both.</td></tr>
+            <tr><td><b>5. What is it called, and how big?</b></td><td>Theme &amp; size</td><td>Boardroom, roundtable, war room, usually 3 to 8 seats.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="call note"><div class="t">Which of these actually matter</div>The first two questions carry the weight, and they are the parts research has formally mapped. "How do they talk" and "do they agree or fight" come straight from multi-agent studies. Purpose, domain, and size are practical groupings. The name is flavor, not function, so a war room is a boardroom in a hurry, not a different machine.</div>
+
+      <div id="sg-subs">
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Question 2, expanded: the six ways a council talks</span></span></summary>
+          <div class="sub-body">
+            <div class="tablewrap">
+              <table class="tbl">
+                <thead><tr><th>Structure</th><th>How it works</th><th>Seen in</th></tr></thead>
+                <tbody>
+                  <tr><td><b>Parallel</b></td><td>Members answer in isolation, then the results are merged.</td><td>Anthropic research subagents, the LLM Council first round</td></tr>
+                  <tr><td><b>Debate</b></td><td>Members read each other and argue across rounds.</td><td>Multi-agent debate, the Voting Boardroom</td></tr>
+                  <tr><td><b>Consensus / vote</b></td><td>Members converge by majority or confidence-weighted vote.</td><td>ReConcile; "More Agents" sampling</td></tr>
+                  <tr><td><b>Sequential</b></td><td>Each member's output feeds the next, like an assembly line.</td><td>The Technical &amp; Coding Council</td></tr>
+                  <tr><td><b>Orchestrator</b></td><td>A lead agent plans and delegates to specialist workers.</td><td>Anthropic's research system, departmental councils</td></tr>
+                  <tr><td><b>Blackboard</b></td><td>Members read and write to one shared workspace.</td><td>Enterprise multi-agent systems</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="tbl-note">Interaction structure and the cooperate-versus-compete split are the two axes named in formal multi-agent surveys. Purpose, domain, theme, and size are practical groupings, useful but not a fixed taxonomy.</p>
+            <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <details class="sec" id="s6">
+    <summary><span class="tri">&#9656;</span><span class="s-num">III</span><span class="s-titlewrap"><div class="s-title">Best Practices From the Field</div><div class="s-sub">The Pattern Across Researchers, Practitioners, and Communities</div></span></summary>
+    <div class="sec-body">
+      <ul class="clean">
+        <li><b>The origin:</b> Andrej Karpathy's open-source LLM Council, where models answer, rank each other blind, and a chair synthesizes.</li>
+        <li><b>The two camps:</b> true multi-model councils (different vendors, real diversity, pay per token) and single-model councils (one model playing five to eight advisors, cheaper and faster), the latter popularized by Ole Lehmann and Allie K. Miller.</li>
+        <li><b>The motivation:</b> stopping a single AI from agreeing with you. The recurring moves are anonymized peer review and a chair.</li>
+        <li><b>The agreed scope:</b> convene a council for high-stakes judgment calls, not for facts or summaries, and read the disagreements rather than the tidy summary.</li>
+      </ul>
+      <div class="call note"><div class="t">The reputable caveat</div>The University of Pennsylvania's Wharton AI Lab found that expert-persona labels do not improve factual accuracy. A council surfaces blind spots and forces dissent, but it does not make the model smarter about facts, so verify those on their own.</div>
+      <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+    </div>
+  </details>
+  <details class="sec" id="s3">
+    <summary><span class="tri">&#9656;</span><span class="s-num">IV</span><span class="s-titlewrap"><div class="s-title">Decision Frameworks as Councils</div><div class="s-sub">Proven Thinking Methods, With the Seats Already Named</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">Long before AI, people built structured ways to force several viewpoints onto one decision. Each maps cleanly onto a council, and several already have working AI versions.</p>
+      <div class="tablewrap">
+        <table class="tbl">
+          <thead><tr><th>Framework</th><th>Origin</th><th>The seats</th><th>AI version</th></tr></thead>
+          <tbody>
+            <tr><td><b>Six Thinking Hats</b></td><td>Edward de Bono, 1985</td><td>Facts, optimism, caution, emotion, creativity, process</td><td>Official de Bono GPT</td></tr>
+            <tr><td><b>Disney Method</b></td><td>Robert Dilts, 1994</td><td>Dreamer, Realist, Critic</td><td>Documented community use</td></tr>
+            <tr><td><b>Pre-mortem</b></td><td>Gary Klein, HBR 2007</td><td>One seat: assume it failed, list why</td><td>Widely published prompt</td></tr>
+            <tr><td><b>Delphi method</b></td><td>RAND, ~1951</td><td>Anonymous expert panel iterating to consensus</td><td>Academic (2025 papers)</td></tr>
+            <tr><td><b>Red / Blue / Purple</b></td><td>Military wargaming</td><td>Attack, defend, reconcile</td><td>Standard in AI safety</td></tr>
+            <tr><td><b>Devil's Advocate + Steelman</b></td><td>Catholic office, 1587</td><td>Argue against, and argue the strongest opposing case</td><td>Popular prompts</td></tr>
+            <tr><td><b>Socratic method</b></td><td>Socrates, 5th c. BCE</td><td>One seat that only asks questions</td><td>Popular and peer-reviewed</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="call risk"><div class="t">Two corrections worth knowing</div>De Bono's organization stresses the hats are modes of thinking, not fixed personalities, so run them as sequential lenses, not six characters at once. And the Eisenhower Matrix grid was popularized by Stephen Covey in 1989; Eisenhower only voiced the urgent-versus-important idea.</div>
+
+      <div id="s3-subs">
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Pre-Mortem, Disney, and Red / Blue / Purple Prompts</span></span></summary>
+          <div class="sub-body">
+            <div class="codewrap"><div class="label">Pre-mortem</div>
+<pre class="code"><code>It is 12 months from now and this decision was a disaster: [DECISION].
+Act as a blunt post-failure investigator. List exactly what went wrong, ranked from
+most to least likely, with the early warning signs I ignored. Do not reassure me.
+Then give the top 3 mitigations to put in place now.</code></pre></div>
+            <div class="codewrap"><div class="label">Disney Method</div>
+<pre class="code"><code>Act as the Disney Method in three rounds for: [CHALLENGE].
+Round 1, Dreamer: the most ambitious ideas, no feasibility filter.
+Round 2, Realist: turn the best idea into a concrete plan (steps, resources, timeline).
+Round 3, Critic: attack the plan only, not the vision; list flaws, risks, and gaps.</code></pre></div>
+            <div class="codewrap"><div class="label">Red / Blue / Purple team</div>
+<pre class="code"><code>Run a Red/Blue/Purple exercise on my plan: [PLAN].
+Blue: state the plan and its strongest defense.
+Red: act as a hostile competitor and attack it; list realistic ways it loses.
+Purple: reconcile both, rank Red's attacks by likelihood, and give the changes that
+defend against the credible ones. Output a hardened plan.</code></pre></div>
+            <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <!-- council card grid -->
+    <div class="section-head">
+    <span class="eyebrow">The Councils</span>
+    <h2>Convene Your AI Council</h2>
+    <p>Each council seats a deliberate mix of voices, tuned to a class of decision. Each one is written up in full below, with its seats and a ready-to-paste prompt.</p>
+  </div>
+  <div class="council-grid">
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2.2" stroke="currentColor" stroke-width="1.3"/><circle cx="18" cy="6" r="2.2" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="18" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M7.6 7.4 11 16M16.4 7.4 13 16M8 6h8" stroke="currentColor" stroke-width="1.1"/></svg></span>
+      <h3 class="council-name">The LLM Council</h3>
+      <p class="council-essence">Several rival models answer, rank each other blind, and a chair writes the verdict.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Claude</span><span class="seat-chip">GPT</span><span class="seat-chip">Gemini</span><span class="seat-chip">Chairman</span></div>
+      <div class="council-bestfor"><b>Best for</b>Hard questions where cross-model consensus and visible disagreement matter.</div></div></details>
+      <a class="council-cta" href="#llm-council">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="5" cy="10" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="19" cy="10" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="18" r="2" stroke="currentColor" stroke-width="1.3"/><circle cx="16" cy="18" r="2" stroke="currentColor" stroke-width="1.3"/></svg></span>
+      <h3 class="council-name">The 5-Advisor Council</h3>
+      <p class="council-essence">Five thinking-style advisors answer blind, review each other, then a chair decides.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Contrarian</span><span class="seat-chip">First-Principles</span><span class="seat-chip">Expansionist</span><span class="seat-chip">Executor</span></div>
+      <div class="council-bestfor"><b>Best for</b>The default second opinion on almost any decision.</div></div></details>
+      <a class="council-cta" href="#five-advisor">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 6l-2 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+      <h3 class="council-name">The Technical &amp; Coding Council</h3>
+      <p class="council-essence">A software team in miniature: spec, architect, build, review, and test.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Architect</span><span class="seat-chip">Engineer</span><span class="seat-chip">Reviewer</span><span class="seat-chip">Security</span></div>
+      <div class="council-bestfor"><b>Best for</b>Designing, building, and reviewing real software with fewer blind spots.</div></div></details>
+      <a class="council-cta" href="#coding-council">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><rect x="4" y="9" width="16" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 9V7a4 4 0 0 1 8 0v2M9 13h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+      <h3 class="council-name">The Boardroom</h3>
+      <p class="council-essence">Four advisors debate your call and hand back a clear board summary.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Operator</span><span class="seat-chip">Strategist</span><span class="seat-chip">Skeptic</span><span class="seat-chip">Mentor</span></div>
+      <div class="council-bestfor"><b>Best for</b>Everyday business and personal decisions.</div></div></details>
+      <a class="council-cta" href="#boardroom">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+      <h3 class="council-name">The Business Advisory Board</h3>
+      <p class="council-essence">Named business mentors you admire each weigh in, then a chair gives the recommendation.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Growth</span><span class="seat-chip">Capital</span><span class="seat-chip">Marketing</span><span class="seat-chip">Builder</span><span class="seat-chip">Chair</span></div>
+      <div class="council-bestfor"><b>Best for</b>Business and growth decisions you want pressure-tested by mentors.</div></div></details>
+      <a class="council-cta" href="#business-board">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M6 9h12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M6 9l-2 4a2.5 2.5 0 0 0 5 0L7 9M17 9l-2 4a2.5 2.5 0 0 0 5 0l-2-4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg></span>
+      <h3 class="council-name">The Investment Committee</h3>
+      <p class="council-essence">A bull and a bear argue the thesis, and a risk officer and chair render the call.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Bull</span><span class="seat-chip">Bear</span><span class="seat-chip">Risk</span><span class="seat-chip">Chair</span></div>
+      <div class="council-bestfor"><b>Best for</b>Go/no-go calls and capital allocation.</div></div></details>
+      <a class="council-cta" href="#investment">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><path d="M4 8h9M4 8l3-3M4 8l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16h-9M20 16l-3-3M20 16l-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <h3 class="council-name">The Debate Council</h3>
+      <p class="council-essence">Two advisors argue opposite sides in rounds, then a judge rules on the stronger case.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Advocate</span><span class="seat-chip">Challenger</span><span class="seat-chip">Rebuttal</span><span class="seat-chip">Judge</span></div>
+      <div class="council-bestfor"><b>Best for</b>Binary or either/or calls where you want the strongest case on both sides.</div></div></details>
+      <a class="council-cta" href="#debate-council">Convene this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="5" height="16" rx="1.2" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="4" width="5" height="11" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="17" y="4" width="4" height="8" rx="1.2" stroke="currentColor" stroke-width="1.2"/></svg></span>
+      <h3 class="council-name">Product Management</h3>
+      <p class="council-essence">A product team as a council: customer, prioritizer, metrics, spec, and a contrarian.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Customer</span><span class="seat-chip">Prioritizer</span><span class="seat-chip">Metrics</span><span class="seat-chip">Spec</span></div>
+      <div class="council-bestfor"><b>Best for</b>Feature, roadmap, and product decisions.</div></div></details>
+      <a class="council-cta" href="#dept-product">Open this council <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+    <article class="council-card">
+      <span class="council-emblem"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.3"/><rect x="13" y="4" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.2"/><rect x="4" y="13" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.2"/><rect x="13" y="13" width="7" height="7" rx="1.4" stroke="currentColor" stroke-width="1.3"/></svg></span>
+      <h3 class="council-name">Departmental Councils</h3>
+      <p class="council-essence">A purpose-built roster for marketing, sales, finance, product, and more.</p>
+      <details class="cc-collapse"><summary><span>Seats &amp; details</span><span class="cc-chev"></span></summary><div class="cc-rev"><div class="seat-row"><span class="seat-chip">Marketing</span><span class="seat-chip">Sales</span><span class="seat-chip">Finance</span><span class="seat-chip">Product</span></div>
+      <div class="council-bestfor"><b>Best for</b>Running a function with a team of specialist advisors.</div></div></details>
+      <a class="council-cta" href="#s2">See the departments <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </article>
+
+  </div>
+
+    <details class="sec" id="s1" open>
+    <summary><span class="tri">&#9656;</span><span class="s-num">V</span><span class="s-titlewrap"><div class="s-title">The Councils, In Depth</div><div class="s-sub">Each Council in Full, With a Ready-to-Paste Prompt</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">Each council is a different answer to one question: which kinds of disagreement does this decision most need? Each one below is a full write-up with its seats and a ready-to-paste prompt. Pick the one that fits and convene it.</p>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">How to Choose and Tune a Council</span></span></summary>
+          <div class="sub-body">
+            <ul class="clean">
+              <li><b>Match the disagreement to the decision.</b> A launch needs a Skeptic and a Pre-Mortem. A creative call needs a Visionary and an Outsider. A money call needs a Bear and a CFO.</li>
+              <li><b>Size to the stakes.</b> Three seats for speed, five as the default, seven or eight when being wrong is expensive.</li>
+              <li><b>Swap, don't rebuild.</b> Take any council below and replace a seat or two from the advisor roster in The Advisors below.</li>
+              <li><b>Always seat a chair.</b> One advisor must read the room and make the call, or you are left with opinions and no decision.</li>
+              <li><b>Let them answer alone first.</b> Independence preserves real differences, and sharing too early collapses the room into agreement.</li>
+            </ul>
+          </div>
+        </details>
+      <div id="councils-wrap">
+        <details class="sub" id="llm-council"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The LLM Council</span></span></summary>
+          <div class="sub-body">
+          <p>The original, from Andrej Karpathy. Instead of trusting one model, you put a question to several rival models at once. They answer independently, then rank each other's answers with the authors hidden so none can play favorites, and a designated Chairman model writes the final response. You see where the best models agree, and more usefully, where they do not.</p>
+          <ul class="seat-list"><li><b>The Members</b> (Claude, GPT, Gemini, Grok): each gives an independent first opinion to the same prompt.</li><li><b>The Anonymous Reviewers</b>: the same models, re-tasked to rank every answer blind to who wrote it.</li><li><b>The Chairman</b>: one model compiles the ranked answers into a single verdict.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Hard, open questions where cross-model consensus is worth the extra cost, and where seeing the disagreement is itself the insight. Source: Karpathy's open-source repository, around 21,000 stars.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Run an LLM Council on my question, in one chat. Question: [QUESTION].
+1. Answer it three times, independently, as three different expert minds (A, B, C).
+   Do not let them influence each other.
+2. Now review them blind: rank answers A, B, and C on accuracy and insight, as if you
+   do not know which is which, and say why.
+3. As Chairman, compile the highest-ranked points into one clear verdict, and note
+   exactly where the three disagreed.</code></pre></div></details>
+          </div>
+        </details>
+
+        <details class="sub" id="coding-council"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Technical &amp; Coding Council</span></span></summary>
+          <div class="sub-body">
+          <p>A software team rendered as advisors, grounded in the research frameworks MetaGPT and ChatDev. Work moves down an assembly line, and crucially the reviewer is kept independent of the author, so it judges the code rather than defending the plan that produced it.</p>
+          <ul class="seat-list"><li><b>The Product Manager</b>: turns the request into clear requirements and acceptance criteria.</li><li><b>The Architect</b>: sets the structure, interfaces, and trade-offs.</li><li><b>The Engineer</b>: writes the implementation.</li><li><b>The Reviewer</b>: reviews the diff for correctness, seeing only the change, not the backstory.</li><li><b>The Security Auditor</b>: hunts injection, secrets, and access flaws.</li><li><b>The QA Tester</b>: writes and runs the tests that prove it works.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Designing, building, or reviewing real software, especially complex changes. The reviewer, security, and QA seats are the ones that catch what a single pass misses. Sources: MetaGPT and ChatDev (peer-published).</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Run a Technical Council on this work. Task or code: [PASTE THE SPEC OR DIFF].
+Answer as six roles, in order, each in its own voice:
+1. Product Manager: restate the requirements and acceptance criteria; flag ambiguity.
+2. Architect: the structure, interfaces, and the key trade-offs.
+3. Engineer: the cleanest implementation approach.
+4. Reviewer: review only the change for correctness bugs; do not defend the plan.
+5. Security Auditor: injection, secrets, access, and dependency risk, rated by severity.
+6. QA Tester: the tests, including edge and failure cases, that would prove it works.
+Then list the must-fix issues and the single first step.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="five-advisor"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The 5-Advisor Council</span></span></summary>
+          <div class="sub-body">
+          <p>The 2026 default for any judgment call. Five thinking-style advisors answer independently, review each other blind, then a Chairman decides. Its whole job is to stop a single AI from quietly agreeing with you.</p>
+          <ul class="seat-list"><li><b>The Contrarian</b>: names what will fail and the worst plausible outcome.</li><li><b>The First-Principles Thinker</b>: asks whether you are solving the right problem.</li><li><b>The Expansionist</b>: finds the upside being undersold.</li><li><b>The Outsider</b>: brings the obvious question insiders stopped asking.</li><li><b>The Executor</b>: names the first concrete step this week.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Almost any decision worth a second opinion. Source: Ole Lehmann, adapting Karpathy's LLM Council.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Be my 5-Advisor Council. Decision: [DECISION].
+Five advisors answer independently, then a Chairman decides. They may disagree.
+1. The Contrarian: what fails, and the worst plausible outcome.
+2. The First-Principles Thinker: am I solving the right problem?
+3. The Expansionist: the upside I am underselling.
+4. The Outsider: the obvious question insiders skip.
+5. The Executor: the first concrete step this week.
+Chairman: the decision, the biggest risk, and the first step. No hedging.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="boardroom"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Boardroom</span></span></summary>
+          <div class="sub-body">
+          <p>The everyday workhorse. Four advisors debate your call and hand back a clear board summary that names where they agreed, where they clashed, and the one question still open.</p>
+          <ul class="seat-list"><li><b>The Pragmatic Operator</b>: what actually gets done, and how.</li><li><b>The Long-term Strategist</b>: where this leads in three years.</li><li><b>The Blunt Skeptic</b>: what breaks, stated plainly.</li><li><b>The Wise Mentor</b>: the perspective you are missing.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Everyday business and personal decisions. Source: PCWorld board-of-advisors prompt.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Act as my Boardroom of four advisors. Decision: [DECISION].
+1. The Pragmatic Operator: what actually gets done, and how.
+2. The Long-term Strategist: where this leads in three years.
+3. The Blunt Skeptic: what breaks, stated plainly.
+4. The Wise Mentor: the perspective I am missing.
+Then give a board summary: where they agree, where they clash, and the one question
+I still need to answer.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="business-board"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Business Advisory Board</span></span></summary>
+          <div class="sub-body">
+          <p>A board of named business figures you respect, each arguing in their real thinking style. It is the personal board of advisors made concrete: pick mentors whose strengths cover the decision, and let them clash before a chair gives the call. Swap the names for figures from your own industry.</p>
+          <ul class="seat-list"><li><b>The Growth Operator</b> (for example Alex Hormozi): the offer, the funnel, and what actually moves revenue.</li><li><b>The Capital Allocator</b> (for example Warren Buffett): long-term value and what to avoid.</li><li><b>The Marketer</b> (for example Seth Godin): the positioning and who this is really for.</li><li><b>The Startup Builder</b> (for example Paul Graham): talk to users, what to build next, staying alive.</li><li><b>The Customer Champion</b> (for example Jeff Bezos): work backward from the customer.</li><li><b>The Chair</b>: weighs the board and gives the recommendation.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Business and growth decisions you want pressure-tested by mentors you admire. Treat each voice as a thinking style, not a quotation, and verify any specific claim. Source: the personal board of advisors pattern (MIT Sloan, 2025, and PCWorld).</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene a Business Advisory Board on this decision. Decision: [BUSINESS DECISION].
+Seat these advisors, each arguing in their real thinking style, a style and not quotes:
+1. The Growth Operator (for example Alex Hormozi): the offer, the funnel, and what moves revenue.
+2. The Capital Allocator (for example Warren Buffett): the long-term value and what to avoid.
+3. The Marketer (for example Seth Godin): the positioning and who this is really for.
+4. The Startup Builder (for example Paul Graham): talk to users, what to build next, staying alive.
+5. The Customer Champion (for example Jeff Bezos): work backward from the customer.
+Then a Chair: where they agree, where they clash, and the recommended move. Verify any specific claim yourself.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="voting-boardroom"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Voting Boardroom</span></span></summary>
+          <div class="sub-body">
+          <p>The most-copied advanced format. Each advisor is a named figure with a short personality. In round one they answer independently and cast a vote, and in round two they read every other answer and may change it.</p>
+          <ul class="seat-list"><li><b>Named figures</b>: each a distinct worldview you choose for the decision.</li><li><b>The vote</b>: YES, NO, or CONDITIONAL, tracked across two rounds.</li><li><b>The synthesis</b>: the tally, the real tensions, and the recommendation.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>High-stakes calls you want genuinely argued out. Source: Allie K. Miller's AI boardroom of named advisors debating over two rounds, and the explicit YES/NO/CONDITIONAL vote is an added convention.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Run a Voting Boardroom on my decision. Decision: [DECISION].
+Seat five named advisors, each a distinct worldview (suggest fitting figures, or I will name them).
+Round 1: each answers independently and casts a vote, YES, NO, or CONDITIONAL, with one reason.
+Round 2: each reads the others and may change their vote, saying why.
+Finish with the vote tally, the real tensions, and your recommendation.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="investment"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Investment Committee</span></span></summary>
+          <div class="sub-body">
+          <p>A bull and a bear argue the thesis to its limits while a risk officer and a chair render the call. Modeled on how real investment committees pressure-test a deal.</p>
+          <ul class="seat-list"><li><b>Fundamentals &amp; Sentiment</b>: the case from the numbers and the narrative.</li><li><b>The Bull</b>: the strongest reasons to commit.</li><li><b>The Bear</b>: the strongest reasons to pass, run against the Bull.</li><li><b>The Risk Officer</b>: exposure, drawdown, and position sizing.</li><li><b>The Chair</b>: the final memo with a confidence rating, not a coin flip.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Go/no-go calls and capital allocation. Source: the bull-vs-bear structure of TradingAgents.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene an Investment Committee. Opportunity: [DEAL OR BET].
+1. Fundamentals &amp; Sentiment: the case from the numbers and the narrative.
+2. The Bull: the strongest reasons to commit.
+3. The Bear: the strongest reasons to pass, argued directly against the Bull.
+4. The Risk Officer: exposure, drawdown, and position sizing.
+5. The Chair: a final memo with a clear recommendation and a confidence level, not a coin flip.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="war-room"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The War Room</span></span></summary>
+          <div class="sub-body">
+          <p>For a crisis, you do not want a fixed panel. A Scenario Analyst sizes up the threat and recruits the specialists it needs, who then work the problem fast under a single Chairman.</p>
+          <ul class="seat-list"><li><b>The Scenario Analyst</b>: frames the threat and picks the team.</li><li><b>On-demand specialists</b>: only the experts this crisis actually needs.</li><li><b>The Chairman</b>: holds the timeline and makes the call under pressure.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Time-pressured crises, incidents, and competitive threats. Source: Komodor's "war room of AI agents" pattern, an incident commander that recruits specialist agents.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Run a War Room on this crisis. Situation: [CRISIS].
+1. Scenario Analyst: frame the threat and name exactly which specialists we need.
+2. Bring in those specialists; each gives their fastest read and recommended action.
+3. Chairman: resolve conflicts, hold the timeline, and give the decision and the first
+   three moves to make now.
+Prioritize speed and the most likely failure path.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="round-table"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Round Table</span></span></summary>
+          <div class="sub-body">
+          <p>Named experts you admire sit as equals and question you Socratically rather than hand you tidy answers. You leave with sharper thinking, not a verdict.</p>
+          <ul class="seat-list"><li><b>Three to five named experts</b>: chosen for genuinely different lenses.</li><li><b>Equal voice</b>: no chair overrides, and the tension is the point.</li><li><b>Socratic stance</b>: they probe your assumptions before advising.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>When you want to be challenged by voices you respect. Source: The Prompt Warrior's experts roundtable.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Host a Round Table for me. Topic: [TOPIC].
+Seat three to five named experts I respect, as equals with no chair (suggest fitting ones, or I will name them).
+They question me Socratically about my assumptions and evidence before offering any view,
+and they may disagree with each other.
+End with the sharpest open questions I should sit with, not a tidy verdict.</code></pre></div></details>
+          </div>
+        </details>
+
+        <details class="sub" id="debate-council"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Debate Council</span></span></summary>
+          <div class="sub-body">
+          <p>Two advisors take opposite sides of the same question and argue it out in rounds, then a neutral judge weighs the exchange and rules. Forcing the strongest case both for and against surfaces the real trade-off before you commit.</p>
+          <ul class="seat-list"><li><b>The Advocate</b>: builds the strongest possible case for the proposal.</li><li><b>The Challenger</b>: builds the strongest possible case against, answering the Advocate directly.</li><li><b>The Rebuttal</b>: each side gets one reply to the other's best point.</li><li><b>The Judge</b>: weighs the exchange, rules, and gives a confidence level.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Binary or either/or decisions where you want the strongest case on both sides before choosing. Sources: "AI Safety via Debate" (Irving, Christiano, Amodei, 2018) and multi-agent debate research (Du et al., 2023, and Khan et al., ICML 2024).</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Run a Debate on this decision. Question: [YES/NO OR EITHER/OR DECISION].
+1. The Advocate: make the strongest possible case FOR.
+2. The Challenger: make the strongest possible case AGAINST, answering the Advocate directly.
+3. Rebuttal: each side gets one reply to the other's single best point.
+4. The Judge: decide which side argued better and why, then give the ruling and a confidence level.</code></pre></div></details>
+          </div>
+        </details>
+
+        <details class="sub" id="red-team"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Red Team / Blue Team</span></span></summary>
+          <div class="sub-body">
+          <p>A blue team defends a plan as sound while a red team attacks it like an adversary trying to make it fail. A referee then lists the real vulnerabilities and what must be fixed before you proceed. The structure is borrowed straight from security practice.</p>
+          <ul class="seat-list"><li><b>The Blue Team</b>: defends the plan and explains why it holds.</li><li><b>The Red Team</b>: attacks it, finding the failure modes and the weak assumptions.</li><li><b>The Referee</b>: lists the confirmed weaknesses by severity and the fixes required.</li></ul>
+          <div class="call note"><div class="t">When to convene it</div>Stress-testing a plan, a launch, or a security and risk decision before committing. Source: standard LLM red-teaming practice, for example the Promptfoo and DeepTeam guides.</div>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Run a Red Team versus Blue Team on this plan. Plan: [PLAN].
+1. Blue Team: defend the plan. Explain why it works and where it is strong.
+2. Red Team: attack it like an adversary. Find the failure modes, the weak assumptions, and how it breaks.
+3. Referee: list the confirmed vulnerabilities by severity, and the fixes required before going ahead.</code></pre></div></details>
+          </div>
+        </details>
+
+
+      </div>
+      <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+    </div>
+  </details>
+
+  <details class="sec" id="s2">
+    <summary><span class="tri">&#9656;</span><span class="s-num">VI</span><span class="s-titlewrap"><div class="s-title">Councils by Department</div><div class="s-sub">A Purpose-Built Roster of Advisors for Each Business Function</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">When the decisions belong to one function, the council should too. Each roster below reflects the roles real teams actually run for that function. Seat four to six and add a Contrarian to keep them honest.</p>
+
+      <div id="s2-subs">
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Marketing</span></span></summary>
+          <div class="sub-body"><ul class="seat-list">
+            <li><b>The Content Lead</b>: drafts copy across blog, email, social, and ads in brand voice.</li>
+            <li><b>The SEO Analyst</b>: researches keywords, tracks rankings, and finds content gaps.</li>
+            <li><b>The Performance Analyst</b>: reads cross-channel data and names what to change.</li>
+            <li><b>The Campaign Strategist</b>: plans the multi-channel push and reallocates budget.</li>
+            <li><b>The Competitive Watcher</b>: monitors rival sites, pricing, and campaigns.</li>
+            <li><b>The Skeptical Buyer</b>: reacts as the target customer and says why they would ignore it.</li>
+          </ul>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene a Marketing Council on this task. Task: [CAMPAIGN, ASSET, OR DECISION].
+Answer as each role, in its own voice, allowed to disagree:
+1. Content Lead: the copy and the angle.
+2. SEO Analyst: the keywords and the content gaps.
+3. Performance Analyst: what the data says to change.
+4. Campaign Strategist: the multi-channel plan and the budget.
+5. Competitive Watcher: what rivals are doing.
+6. Skeptical Buyer: why the target customer would ignore this.
+Then a Chair: where they agree, where they clash, and the next move.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Sales</span></span></summary>
+          <div class="sub-body"><ul class="seat-list">
+            <li><b>The SDR / Prospector</b>: finds high-intent leads and runs personalized outreach.</li>
+            <li><b>The Account Researcher</b>: compiles the prospect and account profile in minutes.</li>
+            <li><b>The Qualifier</b>: scores inbound leads and routes the best to the right rep.</li>
+            <li><b>The Conversation Coach</b>: flags objections and buying signals from calls.</li>
+            <li><b>The Deal Strategist</b>: shapes pricing, concessions, and the path to close.</li>
+            <li><b>The Forecaster</b>: weighs stage, cadence, and engagement to predict the outcome.</li>
+          </ul>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene a Sales Council on this task. Task: [DEAL, LEAD, OR PLAY].
+Answer as each role, in its own voice, allowed to disagree:
+1. SDR or Prospector: the outreach and the highest-intent leads.
+2. Account Researcher: the account and stakeholder picture.
+3. Qualifier: is this worth the rep's time, and why.
+4. Conversation Coach: the objections and the buying signals.
+5. Deal Strategist: pricing, concessions, and the path to close.
+6. Forecaster: the realistic outcome and a confidence level.
+Then a Chair: the recommendation and the next step.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Finance &amp; FP&amp;A</span></span></summary>
+          <div class="sub-body"><ul class="seat-list">
+            <li><b>The FP&amp;A Analyst</b>: forecasts, runs variance analysis, and explains the gaps.</li>
+            <li><b>The Accountant</b>: reconciles transactions and flags discrepancies.</li>
+            <li><b>The Compliance Specialist</b>: checks outputs against policy and regulation.</li>
+            <li><b>The Risk Advisor</b>: evaluates exposure and stress-tests scenarios.</li>
+            <li><b>The Filings Analyst</b>: pulls and reads filings and external data.</li>
+            <li><b>The Cash-Flow Forecaster</b>: projects inflows and outflows on demand.</li>
+          </ul>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene a Finance Council on this task. Task: [BUDGET, FORECAST, OR DECISION].
+Answer as each role, in its own voice, allowed to disagree:
+1. FP and A Analyst: the forecast and the variances.
+2. Accountant: what the books say and any discrepancies.
+3. Compliance Specialist: the policy and regulatory checks.
+4. Risk Advisor: the exposure and the stress test.
+5. Filings Analyst: what the filings and external data show.
+6. Cash-Flow Forecaster: the inflows and outflows.
+Then a Chair: the recommendation, the biggest risk, and the next step.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub" id="dept-product"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Product Management</span></span></summary>
+          <div class="sub-body"><ul class="seat-list">
+            <li><b>The Voice of the Customer</b>: synthesizes interviews, support tickets, and sales feedback into the real jobs to be done.</li>
+            <li><b>The Prioritizer</b>: sequences the roadmap by reach, impact, confidence, and effort.</li>
+            <li><b>The Metrics Analyst</b>: defines the success metric, reads activation and the funnel, and says what the data actually supports.</li>
+            <li><b>The Competitive &amp; Market Strategist</b>: tracks the landscape and positioning, and finds where to differentiate.</li>
+            <li><b>The Spec &amp; Feasibility Lead</b>: writes a crisp PRD with acceptance criteria and edge cases, and pressure-tests scope with engineering and design.</li>
+            <li><b>The Contrarian</b>: argues why this feature misses, so the bet stays honest.</li>
+          </ul>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene a Product Council on this task. Task: [FEATURE, ROADMAP, OR DECISION].
+Answer as each role, in its own voice, allowed to disagree:
+1. Voice of the Customer: the real job to be done.
+2. Prioritizer: reach, impact, confidence, and effort.
+3. Metrics Analyst: the success metric and what the data supports.
+4. Competitive and Market Strategist: where to differentiate.
+5. Spec and Feasibility Lead: the PRD, the edge cases, and the scope.
+6. Contrarian: why this misses.
+Then a Chair: the call, the metric to watch, and the next step.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Engineering</span></span></summary>
+          <div class="sub-body"><ul class="seat-list">
+            <li><b>The Architect-Reviewer</b>: reviews structure and quality and coordinates the rest.</li>
+            <li><b>The Code Reviewer</b>: checks the diff for correctness and technical debt.</li>
+            <li><b>The Security Auditor</b>: scans for OWASP issues, secrets, and broken access.</li>
+            <li><b>The QA Engineer</b>: builds test coverage and runs the regression suite.</li>
+            <li><b>The Sentinel</b>: audits outputs without implementing.</li>
+            <li><b>The Healer</b>: a debug-only role that reads failures and fixes them.</li>
+          </ul>
+          <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene an Engineering Council on this work. Task or code: [SPEC OR DIFF].
+Answer as each role, in its own voice, allowed to disagree:
+1. Architect-Reviewer: the structure and the trade-offs.
+2. Code Reviewer: correctness and technical debt in the change.
+3. Security Auditor: injection, secrets, and access.
+4. QA Engineer: the tests and the regressions.
+5. Sentinel: an audit-only read of the output.
+6. Healer: if it is broken, the failure and the fix.
+Then list the must-fix items and the first step.</code></pre></div></details>
+          </div>
+        </details>
+        <details class="sub"><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">HR, Support, and Operations</span></span></summary>
+          <div class="sub-body">
+            <p><b>HR &amp; People:</b> Resume Screener, Interview Coordinator, Candidate Engagement, Onboarding Guide, Policy Q&amp;A, and a Bias Auditor that tests for disparate impact (a legal duty under laws like NYC Local Law 144).</p>
+            <p><b>Customer Support:</b> Ticket Triage, Resolver, Sentiment Detector, Escalation Manager, QA Reviewer, and a Health-Score watcher for retention.</p>
+            <p><b>Operations &amp; Legal:</b> Contract Reviewer, Compliance Monitor, Risk Flagger, Intake Classifier, Sourcing/Negotiation, and a Process Monitor for spend and delivery.</p>
+            <p class="tbl-note">Legal and HR outputs need a named accountable human, and these are pre-reviewers, not deciders.</p>
+            <details class="promptbox"><summary><span class="cc-chev"></span>Paste this prompt into a fresh Claude chat</summary><div class="codewrap"><pre class="code"><code>Convene an Operations Council on this task. Function: [HR, SUPPORT, OR OPS]. Task: [TASK].
+Seat the right roles for that function. For HR: Resume Screener, Interview Coordinator, Onboarding Guide, Policy Q and A, and a Bias Auditor. Each answers in its own voice and may disagree.
+Then a Chair: the recommendation and the next step. Name the human who owns the final decision, since legal and HR calls need an accountable person.</code></pre></div></details>
+            <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <details class="sec" id="s4">
+    <summary><span class="tri">&#9656;</span><span class="s-num">VII</span><span class="s-titlewrap"><div class="s-title">The Advisors</div><div class="s-sub">The Full Roster, With the Essential Three In Depth</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">Every council is built from these advisors. The three below appear on nearly every table, so they are worth knowing in full. The rest follow as a roster you can draw from.</p>
+      <div class="call tip"><div class="t">The most powerful move: cast a real person for any seat</div>Any seat here can be filled by a named figure instead of a generic role, and it is often the single biggest upgrade to a council. Pick someone real and well known from your own field whose thinking style fits the seat, for example a famous investor for the money seat, a respected founder for the growth seat, or a sharp critic for the Contrarian. Name them in the prompt, ask the model to reason the way they actually think, and treat the voice as a thinking style, not a quotation. Verify any specific fact or number on its own, since the model only approximates the person. The roster below has worked examples.</div>
+
+      <div class="council-detail">
+        <div class="ribbon"><span class="advisor-portrait"><svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="48" r="47" fill="#e7d3a8"/><circle cx="48" cy="48" r="42" fill="#faf6ee"/><clipPath id="avc"><circle cx="48" cy="48" r="42"/></clipPath><g clip-path="url(#avc)"><path d="M16 96 v-14 q0-18 32-18 q32 0 32 18 v14 Z" fill="#243b53"/><path d="M30 78 q18 10 36 0" fill="none" stroke="#cba35e" stroke-width="2.5"/><rect x="42" y="52" width="12" height="14" rx="5" fill="#dcc08c"/><circle cx="48" cy="40" r="18" fill="#e7d3a8"/><path d="M30 38 q0-20 18-20 q18 0 18 20 q-4-9-18-9 q-14 0-18 9 Z" fill="#1f2c3d"/><path d="M39 36 l6 1 M51 37 l6 -1" stroke="#1f2c3d" stroke-width="2.4" stroke-linecap="round"/><circle cx="42" cy="41" r="1.8" fill="#1f2c3d"/><circle cx="54" cy="41" r="1.8" fill="#1f2c3d"/><path d="M43 50 l10 0" stroke="#1f2c3d" stroke-width="2" stroke-linecap="round"/></g></svg></span><span class="num">1</span><h4>The Contrarian</h4></div>
+        <p>The seat that earns the council its value. The Contrarian looks only for what fails, with no instinct to balance the view. It names what breaks first, the worst plausible outcome, and the assumption you are quietly relying on. Seat it on every decision, because it is the direct cure for an AI that wants to agree with you.</p>
+        <p><b>The question it owns:</b> what is the strongest case that this is wrong? <b>Seat it when:</b> always, and especially when the room is agreeing too easily.</p>
+      </div>
+
+      <div class="council-detail">
+        <div class="ribbon"><span class="advisor-portrait"><svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="48" r="47" fill="#e7d3a8"/><circle cx="48" cy="48" r="42" fill="#faf6ee"/><clipPath id="avv"><circle cx="48" cy="48" r="42"/></clipPath><g clip-path="url(#avv)"><path d="M16 96 v-14 q0-18 32-18 q32 0 32 18 v14 Z" fill="#b5894a"/><rect x="42" y="52" width="12" height="14" rx="5" fill="#dcc08c"/><circle cx="48" cy="40" r="18" fill="#e7d3a8"/><path d="M30 36 q2-19 18-19 q17 0 19 17 q-6-7-12-6 q4 4 2 9 q-6-8-14-7 q-9 1-13 6 Z" fill="#243b53"/><path d="M39 33 q3-2 6 0 M51 33 q3-2 6 0" stroke="#1f2c3d" stroke-width="2.2" stroke-linecap="round" fill="none"/><circle cx="42" cy="38" r="1.8" fill="#1f2c3d"/><circle cx="54" cy="38" r="1.8" fill="#1f2c3d"/><path d="M43 49 q5 4 10 0" stroke="#1f2c3d" stroke-width="2" stroke-linecap="round" fill="none"/></g></svg></span><span class="num">2</span><h4>The Visionary</h4></div>
+        <p>The counterweight to the Contrarian. The Visionary finds the upside everyone is underselling and the larger version of the move. It asks what this opens up if it works, and refuses to let caution shrink the ambition before the idea has been heard. Without it, a council talks itself out of every bold call.</p>
+        <p><b>The question it owns:</b> what is the bigger prize here, and the asymmetric upside? <b>Seat it when:</b> the decision is about growth, creation, or a bet worth making large.</p>
+      </div>
+
+      <div class="council-detail">
+        <div class="ribbon"><span class="advisor-portrait"><svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="48" cy="48" r="47" fill="#e7d3a8"/><circle cx="48" cy="48" r="42" fill="#faf6ee"/><clipPath id="avo"><circle cx="48" cy="48" r="42"/></clipPath><g clip-path="url(#avo)"><path d="M16 96 v-14 q0-18 32-18 q32 0 32 18 v14 Z" fill="#5d6b7c"/><path d="M40 64 l8 8 l8 -8 l0 10 l-16 0 Z" fill="#faf6ee"/><rect x="42" y="52" width="12" height="14" rx="5" fill="#dcc08c"/><circle cx="48" cy="40" r="18" fill="#e7d3a8"/><path d="M30 37 q1-19 18-19 q17 0 18 18 q-5-8-12-8 l-2 5 q-3-5-10-4 q-8 1-12 8 Z" fill="#1f2c3d"/><path d="M39 35 l6 0 M51 35 l6 0" stroke="#1f2c3d" stroke-width="2.2" stroke-linecap="round"/><circle cx="42" cy="40" r="1.8" fill="#1f2c3d"/><circle cx="54" cy="40" r="1.8" fill="#1f2c3d"/><path d="M43 49 q5 3 10 0" stroke="#1f2c3d" stroke-width="2" stroke-linecap="round" fill="none"/></g></svg></span><span class="num">3</span><h4>The Operator</h4></div>
+        <p>The seat that turns debate into motion. The Operator ignores theory and names the first concrete step: the email to send, the call to make, the thing to ship this week. It keeps the council honest about whether the decision can actually be executed, and by whom.</p>
+        <p><b>The question it owns:</b> what do I do on Monday morning, and who owns it? <b>Seat it when:</b> the risk is endless deliberation with no action.</p>
+      </div>
+
+      <div id="s4-subs">
+        <details class="sub" open><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">The Rest of the Roster</span></span></summary>
+          <div class="sub-body"><ul class="seat-list">
+            <li><b>The Strategist</b>: thinks in markets, moats, and timing, three years out.</li>
+            <li><b>The First-Principles Thinker</b>: strips the problem to fundamentals and asks if it is the right one.</li>
+            <li><b>The Outsider</b>: brings the obvious question that insiders stopped asking.</li>
+            <li><b>The CFO</b>: tests the unit economics, the cash, and the payback.</li>
+            <li><b>The Customer Advocate</b>: speaks only for the buyer and their thirty-second problem.</li>
+            <li><b>The Ethicist</b>: names what you should refuse to do for money.</li>
+            <li><b>The Pre-Mortem Analyst</b>: assumes the decision failed and works backward to why.</li>
+            <li><b>The Domain Expert</b>: brings what the craft itself demands here.</li>
+            <li><b>The Data Analyst</b>: holds the council to base rates and real evidence.</li>
+            <li><b>The Systems Thinker</b>: traces the second-order effects and feedback loops.</li>
+            <li><b>The Negotiator</b>: argues the counterparty's view and the leverage in the room.</li>
+            <li><b>The Futurist</b>: asks where the trend carries this in five years.</li>
+            <li><b>The Simplifier</b>: cuts the decision down to the one thing that matters.</li>
+            <li><b>The Chairman</b>: reads every voice and delivers the call, the risk, and the first step.</li>
+          </ul>
+          <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+          </div>
+        </details>
+        <details class="sub" open><summary><span class="tri">&#9656;</span><span class="s-titlewrap"><span class="s-title">Famous-Person Advisors</span></span></summary>
+          <div class="sub-body">
+            <p>The fastest way to give a seat a real point of view is to name a real person. Pick a well-known figure from your own field whose thinking fits the seat, then map them to the role: a value investor for the money seat, a product founder for the taste seat, a growth operator for the offer seat. Treat the voice as a thinking style, not a quotation, and verify any specific claim, since the model only approximates the person. Some figures people commonly seat, grouped into the two sets you use most:</p>
+            <h4 class="grp">Business and growth advisors</h4>
+            <div class="tablewrap">
+              <table class="tbl">
+                <thead><tr><th>Figure</th><th>Invoked for</th></tr></thead>
+                <tbody>
+                  <tr><td>Charlie Munger</td><td>Inversion, mental models, sober judgment</td></tr>
+                  <tr><td>Warren Buffett</td><td>Capital allocation, long-term value</td></tr>
+                  <tr><td>Steve Jobs</td><td>Product taste, focus, simplicity</td></tr>
+                  <tr><td>Jeff Bezos</td><td>Customer obsession, scale, the long term</td></tr>
+                  <tr><td>Daniel Kahneman</td><td>Cognitive bias, slow thinking</td></tr>
+                  <tr><td>Richard Feynman</td><td>First principles, simplicity</td></tr>
+                  <tr><td>Nassim Taleb</td><td>Tail risk, antifragility</td></tr>
+                  <tr><td>Seth Godin</td><td>Marketing, positioning</td></tr>
+                  <tr><td>Paul Graham</td><td>Startups, plain thinking</td></tr>
+                  <tr><td>Alex Hormozi</td><td>Offers, acquisition, ruthless focus on revenue</td></tr>
+                  <tr><td>Ray Dalio</td><td>Principles, radical transparency, macro and risk</td></tr>
+                  <tr><td>Naval Ravikant</td><td>Leverage, judgment, long-term wealth</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h4 class="grp">Product management advisors</h4>
+            <p>Ten real product leaders to seat the same way as above, eight classic-PM authorities and two AI-PM specialists, from <a href="../Product-Management-Leaders-Research/PM-Leaders-Report.html">your PM Leaders research</a>.</p>
+            <div class="tablewrap">
+              <table class="tbl">
+                <thead><tr><th>Figure</th><th>Invoked for</th></tr></thead>
+                <tbody>
+                  <tr><td>Marty Cagan</td><td>Empowered product teams and the product operating model</td></tr>
+                  <tr><td>Teresa Torres</td><td>Continuous discovery and customer interviewing</td></tr>
+                  <tr><td>Melissa Perri</td><td>Product strategy and escaping the build trap</td></tr>
+                  <tr><td>Lenny Rachitsky</td><td>The field's knowledge hub, growth and planning</td></tr>
+                  <tr><td>Shreyas Doshi</td><td>Prioritization, product sense, and pre-mortems</td></tr>
+                  <tr><td>Roman Pichler</td><td>Product vision, strategy, and roadmapping</td></tr>
+                  <tr><td>Ken Norton</td><td>PM leadership, hiring, and coaching</td></tr>
+                  <tr><td>Dan Olsen</td><td>Lean product and finding product-market fit</td></tr>
+                  <tr><td>Marily Nika</td><td>AI product management, the AI-PM reference</td></tr>
+                  <tr><td>Aakash Gupta</td><td>AI PM, product growth, and PM careers</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+
+
+  <details class="sec" id="s5">
+    <summary><span class="tri">&#9656;</span><span class="s-num">VIII</span><span class="s-titlewrap"><div class="s-title">A Model for Each Seat</div><div class="s-sub">For Multi-Model Councils, How to Spread Seats Across AI Families</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">This section only matters if you are running a <b>multi-model</b> council, where different AI vendors fill different chairs. If a single model is playing every advisor, you can skip it. The reason to use more than one vendor is diversity: models from the same lab share blind spots, so a council staffed entirely from one lab tends to agree with itself.</p>
+      <div class="call tip"><div class="t">How to use this table</div>Think of it as a seating chart, not a shopping list. First, decide whether you want one model or several. If several, give each seat below to a <b>different lab</b>, so no single training lineage dominates. You do not need every seat, three or four different families is plenty for most decisions. Then use each lab's current flagship, and confirm the exact version and a recent benchmark before you rely on it.</div>
+      <div class="call risk"><div class="t">Names change, so pick the versions yourself</div>This table names model <b>families</b> to spread across, not specific version numbers. Exact model names and benchmark rankings change constantly and are not something this document verifies for you. Check each lab's current flagship and a recent independent benchmark (for example, Artificial Analysis) before you build.</div>
+      <div class="tablewrap">
+        <table class="tbl">
+          <thead><tr><th>Seat</th><th>Family to consider</th><th>What the seat is for</th></tr></thead>
+          <tbody>
+            <tr><td><b>Chairman</b></td><td>Anthropic (Claude)</td><td>Strong general reasoning to weigh and integrate the other voices</td></tr>
+            <tr><td><b>Contrarian / Red-team</b></td><td>A different family from the Chairman, for example Google (Gemini)</td><td>Independent training lineage, so it pushes back rather than echoes</td></tr>
+            <tr><td><b>Numbers / Analyst</b></td><td>A third family, for example OpenAI (GPT)</td><td>Quantitative and structured reasoning</td></tr>
+            <tr><td><b>Coder</b></td><td>A strong coding family, for example Anthropic (Claude)</td><td>For projects that require real coding implementation work</td></tr>
+            <tr><td><b>Writer / Communicator</b></td><td>A family with a strong writing voice</td><td>Turns the verdict into clear, well-structured prose</td></tr>
+            <tr><td><b>Researcher / Long-context</b></td><td>A family that handles large documents and search well</td><td>Reads long source material and gathers the evidence</td></tr>
+            <tr><td><b>Hallucination check</b></td><td>A family outside the others, for example xAI (Grok)</td><td>A fresh, independent check on factual claims</td></tr>
+            <tr><td><b>Open-weight / on-prem</b></td><td>An open-weight family, for example Llama, Qwen, DeepSeek, or GLM</td><td>Self-hostable and auditable, outside the closed labs</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="call note"><div class="t">The point is structural diversity</div>Seats drawn from different model families mean no single lab's blind spots dominate. The families named are examples, not endorsements, so pick the current flagship from each when you build, not the names in any static list.</div>
+      <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+    </div>
+  </details>
+
+
+
+  <details class="sec" id="s9">
+    <summary><span class="tri">&#9656;</span><span class="s-num">IX</span><span class="s-titlewrap"><div class="s-title">How to Build It in Claude</div><div class="s-sub">From a One-Off Prompt to a Permanent Council</div></span></summary>
+    <div class="sec-body">
+      <p class="lead">There are many easy ways to build a Council in Claude, and you can start off as simple as a prompt. Since this playbook and your councils both live in Claude, the methods below are all Claude-native, ordered from the quickest start to the most permanent. The prompts themselves live with each council above, so they are not repeated here.</p>
+      <ol class="steps build-steps">
+        <li><span class="step-h">As Simple as a Prompt</span><span class="step-d">The fastest start, and it works on any plan. Open a fresh chat in Claude, on the web, the desktop app, or mobile, paste the ready-to-paste prompt from any council above, fill in your decision, and send. Nothing to install and nothing to set up. Best for a one-off question you want a sharper answer to.</span>
+          <div class="codewrap"><pre class="code"><code>Be my 5-Advisor Council on this decision: [DECISION].
+Five advisors answer independently, then a Chair gives the call, the biggest risk, and the first step.</code></pre></div></li>
+        <li><span class="step-h">Claude Desktop Project</span><span class="step-d">The simplest way to make a council permanent, with no code. In Claude, create a Project, paste a council prompt into the Project's custom instructions, and drop any reference files into the Project's knowledge. Every new chat you open inside that Project then runs as that council automatically, with nothing to paste. Keep one Project per council, name them clearly, and you can share a Project with your team so everyone uses the same council.</span></li>
+        <li><span class="step-h">Claude Skills</span><span class="step-d">Reusable everywhere, loaded on demand. A Claude <a href="https://code.claude.com/docs/en/skills">Skill</a> is a small instruction file (a SKILL.md) that Claude pulls in only when it is relevant. Package a council as a skill and it becomes available across all of your projects and chats, in Claude Code and in Cowork, without being tied to a single Project. Several open council skills already exist, so you can install one rather than write your own.</span></li>
+        <li><span class="step-h">Claude Agent SDK</span><span class="step-d">For a council that runs on its own. The Claude Agent SDK and subagents let a developer wire each seat as its own agent that runs in parallel, with a synthesizer agent that returns the final verdict. This is the route to automate a council inside a product, a script, or a scheduled job rather than a chat. It is the most powerful option and the only one that needs code.</span></li>
+        <li><span class="step-h">Bundle it as a Plugin</span><span class="step-d">For shipping a whole set. A <a href="https://code.claude.com/docs/en/discover-plugins">plugin</a> packages several skills, commands, and tools into one installable unit, shared through a marketplace so a team installs everything with a single command. Reach for it when you want to distribute a set of councils, or pair a council with the tools it needs, like web search or your own data. For a single council, a skill is enough. A plugin is for shipping a set or sharing widely.</span></li>
+      </ol>
+      <div class="call note"><div class="t">One rule, whichever method you choose</div>Keep a human as the decider. A council widens perspective and forces disagreement, but it does not make the model more accurate on facts, so verify those yourself.</div>
+      <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+    </div>
+  </details>
+
+  <details class="sec" id="s8">
+    <summary><span class="tri">&#9656;</span><span class="s-num">X</span><span class="s-titlewrap"><div class="s-title">Sources</div><div class="s-sub">Grouped, With Reliability Notes</div></span></summary>
+    <div class="sec-body">
+      <div class="srcgrid">
+        <h4>Councils</h4>
+        <ol class="src">
+          <li><b>LLM Council</b> &middot; Andrej Karpathy &middot; <a href="https://github.com/karpathy/llm-council">github.com/karpathy/llm-council</a></li>
+          <li><b>5-Advisor Council</b> &middot; Ole Lehmann's skill &middot; <a href="https://github.com/aiwithremy/claude-skills-llm-council">github.com</a> &nbsp;|&nbsp; Jam AI write-up &middot; <a href="https://jamout.ai/blog/how-to-build-an-ai-council-in-claude-5-advisors-that-give-you-10x-better-answers">jamout.ai</a></li>
+          <li><b>Boardroom</b> &middot; PCWorld board-of-advisors &middot; <a href="https://www.pcworld.com/article/3162260/i-gave-chatgpt-a-board-of-advisors-prompt-the-results-actually-surprised-me.html">pcworld.com</a> &nbsp;|&nbsp; <b>Voting Boardroom</b> &middot; Allie K. Miller &middot; <a href="https://x.com/alliekmiller/status/2021584631082922032">x.com/alliekmiller</a></li>
+          <li><b>The Business Advisory Board</b> &middot; the personal board of advisors pattern &middot; MIT Sloan, Vipin Gupta, 2025 &middot; <a href="https://www.mitsloanme.com/article/how-i-built-a-personal-board-of-directors-with-genai/">mitsloan</a> &nbsp;|&nbsp; PCWorld board-of-advisors</li>
+          <li><b>Technical &amp; Coding Council</b> &middot; MetaGPT &middot; <a href="https://arxiv.org/abs/2308.00352">arXiv</a> &nbsp;|&nbsp; ChatDev &middot; <a href="https://arxiv.org/abs/2307.07924">arXiv</a></li>
+          <li><b>Investment Committee</b> &middot; TradingAgents &middot; <a href="https://arxiv.org/abs/2412.20138">arXiv 2412.20138</a> &nbsp;|&nbsp; <b>Round Table</b> &middot; The Prompt Warrior &middot; <a href="https://www.thepromptwarrior.com/p/experts-roundtable-prompt">thepromptwarrior.com</a></li>
+          <li><b>War Room</b> &middot; Komodor &middot; <a href="https://komodor.com/blog/the-war-room-of-ai-agents-why-the-future-of-ai-sre-is-multi-agent-orchestration/">komodor.com</a> &nbsp;|&nbsp; Sertis &middot; <a href="https://sertiscorp.medium.com/ai-powered-war-room-navigating-businesses-through-every-crisis-c0c14154753d">medium.com</a></li>
+          <li><b>The Debate Council</b> &middot; AI Safety via Debate &middot; <a href="https://arxiv.org/abs/1805.00899">arXiv 1805.00899</a> &nbsp;|&nbsp; Multiagent Debate &middot; <a href="https://arxiv.org/abs/2305.14325">arXiv 2305.14325</a></li>
+          <li><b>Red Team / Blue Team</b> &middot; LLM red-teaming practice &middot; <a href="https://www.promptfoo.dev/docs/red-team/">promptfoo.dev</a> &nbsp;|&nbsp; <a href="https://github.com/confident-ai/deepteam">DeepTeam</a></li>
+        </ol>
+        <h4>Departments</h4>
+        <ol class="src">
+          <li>IBM, AI agents in finance &middot; <a href="https://www.ibm.com/think/topics/ai-agents-in-finance">ibm.com</a> &nbsp;|&nbsp; Relevance AI agent templates &middot; <a href="https://relevanceai.com/agent-templates-roles/sales-development-representative-sdr-ai-agents-1">relevanceai.com</a></li>
+          <li>VoltAgent, awesome-claude-code-subagents &middot; <a href="https://github.com/VoltAgent/awesome-claude-code-subagents">github.com</a> &nbsp;|&nbsp; Sirion (legal), Ivalua (procurement)</li>
+        </ol>
+        <h4>Frameworks, models, and the field</h4>
+        <ol class="src">
+          <li>Six Thinking Hats (official GPT) &middot; <a href="https://www.debono.com/news2/six-thinking-hats-gpt">debono.com</a> &nbsp;|&nbsp; Pre-mortem, Klein (HBR 2007) &middot; <a href="https://hbr.org/2007/09/performing-a-project-premortem">hbr.org</a></li>
+          <li>Wharton GAIL, expert personas don't improve accuracy &middot; <a href="https://gail.wharton.upenn.edu/research-and-insights/playing-pretend-expert-personas/">gail.wharton.upenn.edu</a></li>
+          <li>Artificial Analysis model leaderboard &middot; <a href="https://artificialanalysis.ai/leaderboards/models">artificialanalysis.ai</a> &nbsp;|&nbsp; Anthropic Opus 4.8 &middot; <a href="https://www.anthropic.com/news/claude-opus-4-8">anthropic.com</a></li>
+        </ol>
+      </div>
+      <div class="call note"><div class="t">Reliability</div>Framework origins, the coding-council roles (MetaGPT, ChatDev), and the Wharton finding are high confidence. Every council in this document traces to a specific published source, listed above. Departmental rosters come from vendor and practitioner sources. Themed or composite councils that lacked a single verifiable source were moved to a separate document. The model section names families to spread across, not verified version numbers, so check current flagships yourself. No quotes or figures were invented, and uncertain items are labeled across the series.</div>
+      <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593; Back to top</button>
+    </div>
+  </details>
+
+  <div class="footer">
+    Part of the AI Council series: <a href="AI-Council-Overview.html">Overview</a>, <a href="AI-Council-Detailed-Guide.html">Detailed Guide</a>, <a href="AI-Council-Types-Deep-Research.html">Types &amp; Domains</a>. A council surfaces blind spots and forces dissent on judgment calls, but it does not replace your decision, and it does not make the facts more correct, so verify those on their own.
+  </div>
+
+  </main>
+</div>
+
+<button id="toTop" aria-label="Back to top" title="Back to top">&#8593;</button>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-toggle-all]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var sel = btn.getAttribute('data-toggle-all');
+      var scope = sel === 'page' ? document : document.querySelector(sel);
+      if(!scope) return;
+      var all = scope.querySelectorAll('details');
+      if(!all.length) return;
+      var anyClosed = Array.prototype.some.call(all, function(d){ return !d.open; });
+      all.forEach(function(d){ d.open = anyClosed; });
+      var lbl = btn.querySelector('.lbl'); var ic = btn.querySelector('.ic');
+      if(lbl) lbl.textContent = anyClosed ? 'Collapse all' : 'Expand all';
+      if(ic) ic.style.transform = anyClosed ? 'rotate(90deg)' : 'rotate(0deg)';
+      btn.setAttribute('aria-expanded', anyClosed ? 'true' : 'false');
+    });
+  });
+  document.querySelectorAll('.toc a, .council-cta').forEach(function(a){
+    a.addEventListener('click', function(){
+      var href = a.getAttribute('href'); if(!href || href.charAt(0) !== '#') return;
+      var el = document.getElementById(href.slice(1));
+      var node = el;
+      while(node){ if(node.tagName && node.tagName.toLowerCase()==='details'){ node.open = true; } node = node.parentElement; }
+    });
+  });
+  document.querySelectorAll('pre.code').forEach(function(pre){
+    var b = document.createElement('button'); b.className='copybtn'; b.type='button'; b.textContent='Copy';
+    b.addEventListener('click', function(){
+      navigator.clipboard.writeText(pre.innerText).then(function(){ b.textContent='Copied'; setTimeout(function(){ b.textContent='Copy'; },1500); });
+    });
+    pre.parentElement.appendChild(b);
+  });
+  var toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 600){ toTop.classList.add('show'); } else { toTop.classList.remove('show'); }
+  });
+  toTop.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+})();
+</script>
+</body>
+</html>
